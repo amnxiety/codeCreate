@@ -38,6 +38,7 @@ public class BouncingBallFX extends Application {
     private final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.PURPLE};
     private final List<String> wavFilePaths = new ArrayList<>();
     private final Random random = new Random();
+    private int collisionCount = 0;
 
     private Rectangle background; // Declare background as a class member variable
     private Timeline fadeTimeline; // Timeline for fading the background color back to black
@@ -107,13 +108,9 @@ public class BouncingBallFX extends Application {
         primaryStage.show();
 
         // Initialize and start fade timeline
-        fadeTimeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(background.fillProperty(), background.getFill())),
-                new KeyFrame(FADE_DURATION, new KeyValue(background.fillProperty(), Color.BLACK))
-        );
+        fadeTimeline = new Timeline();
         fadeTimeline.setCycleCount(1);
-        fadeTimeline.setOnFinished(event -> background.setFill(Color.BLACK)); // Reset background color after fade
-        fadeTimeline.pause(); // Pause the timeline initially
+        fadeTimeline.setAutoReverse(true);
     }
 
     // Load WAV files
@@ -167,14 +164,24 @@ public class BouncingBallFX extends Application {
             BALL_SIZE += SIZE_INCREMENT; // Increase ball size
             playRandomWav();
             background.setFill(getRandomColorWithTransparency(0.5)); // Change background color with 50% transparency
+            fadeTimeline.getKeyFrames().setAll(
+                    new KeyFrame(Duration.ZERO, new KeyValue(background.fillProperty(), Color.BLACK)),
+                    new KeyFrame(FADE_DURATION, new KeyValue(background.fillProperty(), getRandomColorWithTransparency(0.5)))
+            );
             fadeTimeline.playFromStart(); // Start the fade timeline
+            collisionCount++;
         } else if (ballX > WIDTH - BORDER_SIZE - BALL_SIZE - fullThickness) {
             ballX = WIDTH - BORDER_SIZE - BALL_SIZE - fullThickness;
             ballVelX *= -1.0 - SPEED_INCREMENT;
             BALL_SIZE += SIZE_INCREMENT; // Increase ball size
             playRandomWav();
             background.setFill(getRandomColorWithTransparency(0.5)); // Change background color with 50% transparency
+            fadeTimeline.getKeyFrames().setAll(
+                    new KeyFrame(Duration.ZERO, new KeyValue(background.fillProperty(), Color.BLACK)),
+                    new KeyFrame(FADE_DURATION, new KeyValue(background.fillProperty(), getRandomColorWithTransparency(0.5)))
+            );
             fadeTimeline.playFromStart(); // Start the fade timeline
+            collisionCount++;
         }
 
         if (ballY < BORDER_SIZE + fullThickness) {
@@ -183,14 +190,24 @@ public class BouncingBallFX extends Application {
             BALL_SIZE += SIZE_INCREMENT; // Increase ball size
             playRandomWav();
             background.setFill(getRandomColorWithTransparency(0.5)); // Change background color with 50% transparency
+            fadeTimeline.getKeyFrames().setAll(
+                    new KeyFrame(Duration.ZERO, new KeyValue(background.fillProperty(), Color.BLACK)),
+                    new KeyFrame(FADE_DURATION, new KeyValue(background.fillProperty(), getRandomColorWithTransparency(0.5)))
+            );
             fadeTimeline.playFromStart(); // Start the fade timeline
+            collisionCount++;
         } else if (ballY > HEIGHT - BORDER_SIZE - BALL_SIZE - fullThickness) {
             ballY = HEIGHT - BORDER_SIZE - BALL_SIZE - fullThickness;
             ballVelY *= -1.0 - SPEED_INCREMENT;
             BALL_SIZE += SIZE_INCREMENT; // Increase ball size
             playRandomWav();
             background.setFill(getRandomColorWithTransparency(0.5)); // Change background color with 50% transparency
+            fadeTimeline.getKeyFrames().setAll(
+                    new KeyFrame(Duration.ZERO, new KeyValue(background.fillProperty(), Color.BLACK)),
+                    new KeyFrame(FADE_DURATION, new KeyValue(background.fillProperty(), getRandomColorWithTransparency(0.5)))
+            );
             fadeTimeline.playFromStart(); // Start the fade timeline
+            collisionCount++;
         }
 
         // Adjust ball size to stay within wall area
