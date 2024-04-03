@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -42,6 +44,7 @@ public class BouncingBallFX extends Application {
 
     private Rectangle background; // Declare background as a class member variable
     private Timeline fadeTimeline; // Timeline for fading the background color back to black
+    private Text collisionText; // Text node to display collision count
 
     @Override
     public void start(Stage primaryStage) {
@@ -63,6 +66,14 @@ public class BouncingBallFX extends Application {
         ball.setFill(vibrantColors[0]);
 
         root.getChildren().addAll(ball);
+
+        // Create text node to display collision count
+        collisionText = new Text("Collisions: 0");
+        collisionText.setFont(Font.font("Arial", 20));
+        collisionText.setFill(Color.WHITE);
+        collisionText.setTranslateX(10);
+        collisionText.setTranslateY(30);
+        root.getChildren().add(collisionText);
 
         loadWavFiles(); // Load WAV files
 
@@ -220,6 +231,9 @@ public class BouncingBallFX extends Application {
         ball.setY(ballY);
         ball.setWidth(BALL_SIZE);
         ball.setHeight(BALL_SIZE);
+
+        // Update collision count text
+        collisionText.setText("Collisions: " + collisionCount);
     }
 
     // Generate a random color with transparency

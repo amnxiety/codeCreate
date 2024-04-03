@@ -5,17 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="accded19-9da6-4230-a5b9-892491923ed9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/Besharam Bar and Grill 2.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/Besharam Bar and Grill 3.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/Besharam Bar and Grill 4.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/Besharam Bar and Grill 5.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/Besharam Bar and Grill 6.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/Besharam Bar and Grill 7.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/Besharam Bar and Grill 8.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/Besharam Bar and Grill.wav" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
