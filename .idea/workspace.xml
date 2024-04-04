@@ -23,10 +23,10 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 2
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
   <component name="ProjectId" id="2ebxEPjaJDkGDyyypMGM50cXYs4" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -34,6 +34,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.BouncingBallFX (1).executor": "Run",
     "Application.BouncingBallFX.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -42,6 +43,34 @@
     "kotlin-language-version-configured": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="Application.BouncingBallFX">
+    <configuration name="BouncingBallFX (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="BouncingBallFX" />
+      <module name="new_bounce" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BouncingBallFX" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.new_bounce.BouncingBallFX" />
+      <module name="new_bounce" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.new_bounce.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.BouncingBallFX" />
+        <item itemvalue="Application.BouncingBallFX (1)" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
