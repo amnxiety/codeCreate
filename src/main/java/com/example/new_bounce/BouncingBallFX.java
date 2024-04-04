@@ -1,6 +1,9 @@
 package com.example.new_bounce;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -9,6 +12,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.scene.media.Media;
 import java.io.File;
 import javafx.scene.media.MediaPlayer;
@@ -22,11 +26,12 @@ public class BouncingBallFX extends Application {
     private static final int HEIGHT = 600;
     private static final int BORDER_RADIUS = 250;
     private static double BALL_RADIUS = 20;
-    private double ballX=50; // initial position of the ball
-    private double ballY=50; // initial position of the ball
+    private double ballX = 50; // initial position of the ball
+    private double ballY = 50; // initial position of the ball
     private double ballDX; // initial speed in the x direction
     private double ballDY; // initial speed in the y direction
     private int collisionCount = 0;
+    private int colorIndex = 0;
 
     private final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.PURPLE};
     private Circle border;
@@ -36,7 +41,7 @@ public class BouncingBallFX extends Application {
     // Define the range for initial velocity
     private static final double INITIAL_VELOCITY_MIN = 5.0;
     private static final double INITIAL_VELOCITY_MAX = 5.0;
-
+    private static final double GRAVITY = 0.5; // Adjust gravity as needed
     // Define the range for randomness in reflection angle
     private static final double REFLECTION_RANDOMNESS = 0.5; // Adjust as needed
     private Random random = new Random();
@@ -90,10 +95,23 @@ public class BouncingBallFX extends Application {
             }
         };
         timer.start();
+
+        // Timeline to change ball color smoothly
+        Timeline colorTimeline = new Timeline(new KeyFrame(Duration.seconds(0.5), e -> changeBallColor()));
+        colorTimeline.setCycleCount(Timeline.INDEFINITE);
+        colorTimeline.play();
     }
     private boolean isColliding = false;
 
     private void updateBallPosition() {
+        // Apply gravity
+        ballDY += GRAVITY;
+
+        // Apply damping to simulate air resistance
+        double damping = 0.95; // Adjust damping factor as needed
+        ballDX *= damping;
+        ballDY *= damping;
+
         // Update ball position
         ballX += ballDX;
         ballY += ballDY;
@@ -162,6 +180,19 @@ public class BouncingBallFX extends Application {
     }
 
 
+    private void changeBallColor() {
+        Color currentColor = (Color) ball.getFill();
+        Color nextColor = vibrantColors[(colorIndex + 1) % vibrantColors.length];
+
+        Timeline colorTimeline = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(ball.fillProperty(), currentColor)),
+                new KeyFrame(Duration.seconds(1), new KeyValue(ball.fillProperty(), nextColor))
+        );
+        colorTimeline.play();
+
+        colorIndex = (colorIndex + 1) % vibrantColors.length;
+    }
+
     private void loadMp3Files() {
         File keyNotesFolder = new File("src/main/java/com/example/new_bounce/keyNotes");
         File[] mp3Files = keyNotesFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
@@ -172,7 +203,6 @@ public class BouncingBallFX extends Application {
             }
         }
     }
-
 
     public static void main(String[] args) {
         launch(args);
