@@ -9,6 +9,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.util.Random;
 
 public class BouncingBallFX extends Application {
@@ -16,8 +17,8 @@ public class BouncingBallFX extends Application {
     private static final int HEIGHT = 600;
     private static final int BORDER_RADIUS = 250;
     private static final double BALL_RADIUS = 20;
-    private double ballX; // initial position of the ball
-    private double ballY; // initial position of the ball
+    private double ballX=50; // initial position of the ball
+    private double ballY=50; // initial position of the ball
     private double ballDX; // initial speed in the x direction
     private double ballDY; // initial speed in the y direction
     private int collisionCount = 0;
@@ -28,8 +29,12 @@ public class BouncingBallFX extends Application {
     private Text collisionText;
 
     // Define the range for initial velocity
-    private static final double INITIAL_VELOCITY_MIN = -5.0;
+    private static final double INITIAL_VELOCITY_MIN = 5.0;
     private static final double INITIAL_VELOCITY_MAX = 5.0;
+
+    // Define the range for randomness in reflection angle
+    private static final double REFLECTION_RANDOMNESS = 0.5; // Adjust as needed
+    private Random random = new Random();
 
     @Override
     public void start(Stage primaryStage) {
@@ -96,15 +101,17 @@ public class BouncingBallFX extends Application {
             // Calculate angle to the center of the outer circle
             double angleToCenter = Math.atan2(dy, dx);
 
-            // Calculate point of contact on the outer circle
-            double contactX = border.getCenterX() + (BORDER_RADIUS * Math.cos(angleToCenter));
-            double contactY = border.getCenterY() + (BORDER_RADIUS * Math.sin(angleToCenter));
-
-            // Calculate reflection angle
+            // Calculate reflection angle with randomness
             double incidenceAngle = Math.atan2(ballDY, ballDX);
             double reflectionAngle = 2 * angleToCenter - incidenceAngle + Math.PI;
+            reflectionAngle += (random.nextDouble() - 0.5) * REFLECTION_RANDOMNESS; // Add randomness
 
-            // Update ball direction
+            // Check if the absolute difference between reflection angle and angle to the center is too small
+            if (Math.abs(reflectionAngle - angleToCenter) < 0.5) { // Adjust threshold as needed
+                reflectionAngle += Math.PI / 4; // Adjust angle by 45 degrees
+            }
+
+            // Update ball direction using reflection formula
             double speed = Math.sqrt(ballDX * ballDX + ballDY * ballDY);
             ballDX = Math.cos(reflectionAngle) * speed;
             ballDY = Math.sin(reflectionAngle) * speed;
@@ -118,6 +125,7 @@ public class BouncingBallFX extends Application {
         ball.setCenterX(ballX);
         ball.setCenterY(ballY);
     }
+
 
     public static void main(String[] args) {
         launch(args);
