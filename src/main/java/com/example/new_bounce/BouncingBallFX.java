@@ -9,14 +9,19 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import java.io.File;
+import javafx.scene.media.MediaPlayer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class BouncingBallFX extends Application {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
     private static final int BORDER_RADIUS = 250;
-    private static final double BALL_RADIUS = 20;
+    private static double BALL_RADIUS = 20;
     private double ballX=50; // initial position of the ball
     private double ballY=50; // initial position of the ball
     private double ballDX; // initial speed in the x direction
@@ -35,12 +40,12 @@ public class BouncingBallFX extends Application {
     // Define the range for randomness in reflection angle
     private static final double REFLECTION_RANDOMNESS = 0.5; // Adjust as needed
     private Random random = new Random();
-
+    private List<Media> mp3MediaList = new ArrayList<>();
     @Override
     public void start(Stage primaryStage) {
         Pane root = new Pane();
         root.setStyle("-fx-background-color: black;");
-
+        loadMp3Files();
         // Create a circle to represent the border of the box
         border = new Circle(WIDTH / 2.0, HEIGHT / 2.0, BORDER_RADIUS);
         border.setFill(null);
@@ -86,6 +91,7 @@ public class BouncingBallFX extends Application {
         };
         timer.start();
     }
+    private boolean isColliding = false;
 
     private void updateBallPosition() {
         // Update ball position
@@ -98,32 +104,61 @@ public class BouncingBallFX extends Application {
         double distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance + BALL_RADIUS >= BORDER_RADIUS) {
-            // Calculate angle to the center of the outer circle
-            double angleToCenter = Math.atan2(dy, dx);
+            if (!isColliding) { // Check if this is the first frame of collision
+                isColliding = true;
 
-            // Calculate reflection angle with randomness
-            double incidenceAngle = Math.atan2(ballDY, ballDX);
-            double reflectionAngle = 2 * angleToCenter - incidenceAngle + Math.PI;
-            reflectionAngle += (random.nextDouble() - 0.5) * REFLECTION_RANDOMNESS; // Add randomness
+                // Calculate angle to the center of the outer circle
+                double angleToCenter = Math.atan2(dy, dx);
 
-            // Check if the absolute difference between reflection angle and angle to the center is too small
-            if (Math.abs(reflectionAngle - angleToCenter) < 0.5) { // Adjust threshold as needed
-                reflectionAngle += Math.PI / 4; // Adjust angle by 45 degrees
+                // Calculate reflection angle with randomness
+                double incidenceAngle = Math.atan2(ballDY, ballDX);
+                double reflectionAngle = 2 * angleToCenter - incidenceAngle + Math.PI;
+                reflectionAngle += (random.nextDouble() - 0.5) * REFLECTION_RANDOMNESS; // Add randomness
+
+                // Check if the absolute difference between reflection angle and angle to the center is too small
+                if (Math.abs(reflectionAngle - angleToCenter) < 0.5) { // Adjust threshold as needed
+                    reflectionAngle += Math.PI / 4; // Adjust angle by 45 degrees
+                }
+
+                // Update ball direction using reflection formula
+                double speed = Math.sqrt(ballDX * ballDX + ballDY * ballDY);
+                ballDX = Math.cos(reflectionAngle) * speed;
+                ballDY = Math.sin(reflectionAngle) * speed;
+
+                // Increase the size of the ball
+                BALL_RADIUS += 5; // Adjust the increment as needed
+
+                // Update collision count
+                collisionCount++;
+                collisionText.setText("Collisions: " + collisionCount);
+
+                // Inside the updateBallPosition() method, after updating collision count
+                // Play a random MP3 file from the loaded list
+                if (!mp3MediaList.isEmpty()) {
+                    Media randomMedia = mp3MediaList.get(random.nextInt(mp3MediaList.size()));
+                    MediaPlayer mediaPlayer = new MediaPlayer(randomMedia);
+                    mediaPlayer.play();
+                }
             }
-
-            // Update ball direction using reflection formula
-            double speed = Math.sqrt(ballDX * ballDX + ballDY * ballDY);
-            ballDX = Math.cos(reflectionAngle) * speed;
-            ballDY = Math.sin(reflectionAngle) * speed;
-
-            // Update collision count
-            collisionCount++;
-            collisionText.setText("Collisions: " + collisionCount);
+        } else {
+            isColliding = false; // Reset the collision state if no longer colliding
         }
 
         // Update ball position
         ball.setCenterX(ballX);
         ball.setCenterY(ballY);
+        ball.setRadius(BALL_RADIUS); // Set the new radius of the ball
+    }
+
+    private void loadMp3Files() {
+        File keyNotesFolder = new File("src/main/java/com/example/new_bounce/keyNotes");
+        File[] mp3Files = keyNotesFolder.listFiles((dir, name) -> name.toLowerCase().endsWith(".mp3"));
+        if (mp3Files != null) {
+            for (File mp3File : mp3Files) {
+                Media media = new Media(mp3File.toURI().toString());
+                mp3MediaList.add(media);
+            }
+        }
     }
 
 
