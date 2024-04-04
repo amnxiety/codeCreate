@@ -116,7 +116,7 @@ public class BouncingBallFX extends Application {
                 reflectionAngle += (random.nextDouble() - 0.5) * REFLECTION_RANDOMNESS; // Add randomness
 
                 // Check if the absolute difference between reflection angle and angle to the center is too small
-                if (Math.abs(reflectionAngle - angleToCenter) < 0.5) { // Adjust threshold as needed
+                if (Math.abs(reflectionAngle - angleToCenter) < 0.2) { // Adjust threshold as needed
                     reflectionAngle += Math.PI / 4; // Adjust angle by 45 degrees
                 }
 
@@ -126,7 +126,7 @@ public class BouncingBallFX extends Application {
                 ballDY = Math.sin(reflectionAngle) * speed;
 
                 // Increase the size of the ball
-                BALL_RADIUS += 5; // Adjust the increment as needed
+                BALL_RADIUS += 1; // Adjust the increment as needed
 
                 // Update collision count
                 collisionCount++;
@@ -144,11 +144,23 @@ public class BouncingBallFX extends Application {
             isColliding = false; // Reset the collision state if no longer colliding
         }
 
+        // Ensure the ball stays inside the boundary
+        if (distance + BALL_RADIUS > BORDER_RADIUS) {
+            // Calculate the normalized direction vector from the center of the circle to the current position of the ball
+            double normX = dx / distance;
+            double normY = dy / distance;
+
+            // Calculate the corrected position for the ball
+            ballX = border.getCenterX() + normX * (BORDER_RADIUS - BALL_RADIUS);
+            ballY = border.getCenterY() + normY * (BORDER_RADIUS - BALL_RADIUS);
+        }
+
         // Update ball position
         ball.setCenterX(ballX);
         ball.setCenterY(ballY);
         ball.setRadius(BALL_RADIUS); // Set the new radius of the ball
     }
+
 
     private void loadMp3Files() {
         File keyNotesFolder = new File("src/main/java/com/example/new_bounce/keyNotes");
