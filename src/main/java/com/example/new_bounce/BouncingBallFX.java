@@ -69,9 +69,9 @@ public class BouncingBallFX extends Application {
 
         // Create text node to display collision count
         collisionText = new Text("Collisions: 0");
-        collisionText.setFont(Font.font("Arial", 20));
+        collisionText.setFont(Font.font("Arial", 30));
         collisionText.setFill(Color.WHITE);
-        collisionText.setTranslateX(10);
+        collisionText.setTranslateX(220);
         collisionText.setTranslateY(30);
         root.getChildren().add(collisionText);
 
