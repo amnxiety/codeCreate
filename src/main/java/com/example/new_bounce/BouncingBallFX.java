@@ -34,7 +34,7 @@ public class BouncingBallFX extends Application {
     private double ballDY; // initial speed in the y direction
     private int collisionCount = 0;
 
-    private final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.PURPLE};
+    private final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
     private Color currentColor = Color.RED; // Initialize with any color
     private Circle border;
     private Circle ball;
