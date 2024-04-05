@@ -35,6 +35,7 @@ public class BouncingBallFX extends Application {
     private int collisionCount = 0;
 
     private final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.PURPLE};
+    private Color currentColor = Color.RED; // Initialize with any color
     private Circle border;
     private Circle ball;
     private Text collisionText;
@@ -51,14 +52,14 @@ public class BouncingBallFX extends Application {
         border = new Circle(WIDTH / 2.0, HEIGHT / 2.0, BORDER_RADIUS);
         border.setFill(null);
         border.setStrokeWidth(15);
-        border.setStroke(Color.RED);
+        border.setStroke(currentColor); // Set the color of the border to currentColor
 
         // Initialize ball's initial direction randomly with changeable initial velocity
         ballDX = random.nextDouble() * (INITIAL_VELOCITY_MAX - INITIAL_VELOCITY_MIN) + INITIAL_VELOCITY_MIN;
         ballDY = random.nextDouble() * (INITIAL_VELOCITY_MAX - INITIAL_VELOCITY_MIN) + INITIAL_VELOCITY_MIN;
 
         ball = new Circle(ballX, ballY, BALL_RADIUS);
-        ball.setFill(vibrantColors[0]);
+        ball.setFill(currentColor); // Set the color of the ball to currentColor
 
         collisionText = new Text("Collisions: " + collisionCount);
         collisionText.setFont(Font.font("Arial", 30));
@@ -122,6 +123,11 @@ public class BouncingBallFX extends Application {
                 MediaPlayer mediaPlayer = new MediaPlayer(randomMedia);
                 mediaPlayer.play();
             }
+
+            // Change the color of both ball and border to the next color in the array
+            currentColor = vibrantColors[(collisionCount + 1) % vibrantColors.length];
+            border.setStroke(currentColor);
+            ball.setFill(currentColor);
         }
 
         // Ensure the ball stays inside the boundary
