@@ -38,14 +38,16 @@ public class BouncingBallFX extends Application {
     private Color currentColor = Color.RED; // Initialize with any color
     private Circle border;
     private Circle ball;
+    private List<Circle> tail = new ArrayList<>(); // List to hold the circles forming the tail
     private Text collisionText;
 
     private Random random = new Random();
+    private Color tailColor = Color.GRAY; // Default tail color
     private List<Media> mp3MediaList = new ArrayList<>();
-
+    Pane root;
     @Override
     public void start(Stage primaryStage) {
-        Pane root = new Pane();
+        root = new Pane();
         root.setStyle("-fx-background-color: black;");
         loadMp3Files();
 
@@ -79,6 +81,7 @@ public class BouncingBallFX extends Application {
             @Override
             public void handle(long now) {
                 updateBallPosition();
+                updateTail();
             }
         };
         timer.start();
@@ -141,6 +144,28 @@ public class BouncingBallFX extends Application {
         ball.setCenterX(ballX);
         ball.setCenterY(ballY);
         ball.setRadius(BALL_RADIUS);
+    }
+
+    private void updateTail() {
+        // Create a new circle for the tail piece
+        Circle newTailPiece = new Circle(ball.getCenterX(), ball.getCenterY(), BALL_RADIUS * 0.9); // Adjust the size of the tail pieces as needed
+        newTailPiece.setFill(tailColor); // Set the color of the tail piece
+
+        // Limit the number of tail pieces
+        if (tail.size() > 20) { // Adjust the number of tail pieces as needed
+            root.getChildren().remove(tail.remove(0)); // Remove the oldest tail piece from the root pane and the tail list
+        }
+
+        // Set transparency based on position in the tail
+        double transparency = 1.0;
+        for (int i = tail.size(); i > 0; i--) {
+            tail.get(i - 1).setOpacity(transparency);
+            transparency *= 0.8; // Adjust the rate of transparency decrease as needed
+        }
+
+        // Add the new tail piece to the root pane and the tail list
+        root.getChildren().add(0, newTailPiece); // Add the tail piece before the ball
+        tail.add(newTailPiece);
     }
 
     private void loadMp3Files() {
