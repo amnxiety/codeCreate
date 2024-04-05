@@ -44,7 +44,11 @@ public class BouncingBallFX extends Application {
     private Random random = new Random();
     private Color tailColor = Color.GRAY; // Default tail color
     private List<Media> mp3MediaList = new ArrayList<>();
-    Pane root;
+    private Pane root;
+
+    private Color targetBallColor = Color.RED; // Initial target ball color
+    private Color targetBorderColor = Color.RED; // Initial target border color
+
     @Override
     public void start(Stage primaryStage) {
         root = new Pane();
@@ -95,6 +99,14 @@ public class BouncingBallFX extends Application {
         ballX += ballDX;
         ballY += ballDY;
 
+        // Gradually transition ball color towards the target ball color
+        Color currentBallColor = (Color) ball.getFill();
+        ball.setFill(currentBallColor.interpolate(targetBallColor, 0.005)); // Adjust the interpolation factor as needed
+
+        // Gradually transition border color towards the target border color
+        Color currentBorderColor = (Color) border.getStroke();
+        border.setStroke(currentBorderColor.interpolate(targetBorderColor, 0.005)); // Adjust the interpolation factor as needed
+
         // Check for collisions with border
         double dx = ballX - border.getCenterX();
         double dy = ballY - border.getCenterY();
@@ -127,10 +139,9 @@ public class BouncingBallFX extends Application {
                 mediaPlayer.play();
             }
 
-            // Change the color of both ball and border to the next color in the array
-            currentColor = vibrantColors[(collisionCount + 1) % vibrantColors.length];
-            border.setStroke(currentColor);
-            ball.setFill(currentColor);
+            // Change the target colors
+            targetBallColor = vibrantColors[(collisionCount + 1) % vibrantColors.length];
+            targetBorderColor = vibrantColors[(collisionCount + 1) % vibrantColors.length];
         }
 
         // Ensure the ball stays inside the boundary
