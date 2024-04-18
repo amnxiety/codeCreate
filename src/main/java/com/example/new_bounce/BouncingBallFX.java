@@ -12,8 +12,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import javax.sound.midi.*;
@@ -26,11 +24,11 @@ import java.util.Random;
 public class BouncingBallFX extends Application {
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 1200;
-    private static final int BORDER_RADIUS = 450;
+    private static double BORDER_RADIUS = 450;
     private static double BALL_RADIUS = 25;
-    private static double GRAVITY = 0.18;
-    private static double SPEED_INCREMENT = 0.08;
-    private static double SIZE_INCREMENT = 3.15;
+    private static double GRAVITY = 0.2;
+    private static double SPEED_INCREMENT = 0.1;
+    private static double SIZE_INCREMENT = 3;
     private static double INITIAL_VELOCITY_MIN = 0.5; // Changeable initial velocity range
     private static double INITIAL_VELOCITY_MAX = 0.5; // Changeable initial velocity range
 
@@ -53,7 +51,7 @@ public class BouncingBallFX extends Application {
 
     private Color targetBallColor = Color.RED; // Initial target ball color
     private Color targetBorderColor = Color.RED; // Initial target border color
-
+    private static final double BORDER_SHRINK_RATE = 0.1;
     private long[] noteDurations; // Array to store note durations
     private ArrayList<Integer> notes;
     private int sizeNotes;
@@ -155,7 +153,7 @@ public class BouncingBallFX extends Application {
         double dx = ballX - border.getCenterX();
         double dy = ballY - border.getCenterY();
         double distance = Math.sqrt(dx * dx + dy * dy);
-
+        BORDER_RADIUS -= BORDER_SHRINK_RATE;
         if (distance + BALL_RADIUS >= BORDER_RADIUS) {
             playNotesWhenAsked(collisionCount);
             // Calculate angle to the center of the outer circle
@@ -170,8 +168,8 @@ public class BouncingBallFX extends Application {
             ballDX = Math.cos(reflectionAngle) * (speed + SPEED_INCREMENT);
             ballDY = Math.sin(reflectionAngle) * (speed + SPEED_INCREMENT);
 
-            // Increase the size of the ball
-            BALL_RADIUS += SIZE_INCREMENT;
+            // Increase the size of the border
+            BORDER_RADIUS += SIZE_INCREMENT;
 
             // Update collision count
             collisionCount++;
@@ -193,7 +191,10 @@ public class BouncingBallFX extends Application {
         ball.setCenterX(ballX);
         ball.setCenterY(ballY);
         ball.setRadius(BALL_RADIUS);
+
+        border.setRadius(BORDER_RADIUS);
     }
+
 
     private void updateTail() {
         // Create a new circle for the tail piece
@@ -220,7 +221,7 @@ public class BouncingBallFX extends Application {
     private void loadMidiFile() {
         // Load MIDI file
         try {
-            File midiFile = new File("src/main/java/com/example/new_bounce/midi/meme.mid");
+            File midiFile = new File("src/main/java/com/example/new_bounce/midi/fur.mid");
             Sequence sequence = MidiSystem.getSequence(midiFile);
             notes = extractNotesFromMidi(sequence);
             noteDurations = calculateNoteDurations(sequence);
