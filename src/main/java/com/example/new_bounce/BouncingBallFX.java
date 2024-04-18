@@ -27,7 +27,7 @@ public class BouncingBallFX extends Application {
     private static double BORDER_RADIUS = 450;
     private static double BALL_RADIUS = 25;
     private static double GRAVITY = 0.2;
-    private static double SPEED_INCREMENT = 0.1;
+    private static double SPEED_INCREMENT = 0.08;
     private static double SIZE_INCREMENT = 3;
     private static double INITIAL_VELOCITY_MIN = 0.5; // Changeable initial velocity range
     private static double INITIAL_VELOCITY_MAX = 0.5; // Changeable initial velocity range
@@ -51,10 +51,12 @@ public class BouncingBallFX extends Application {
 
     private Color targetBallColor = Color.RED; // Initial target ball color
     private Color targetBorderColor = Color.RED; // Initial target border color
-    private static final double BORDER_SHRINK_RATE = 0.1;
+    private static final double BORDER_SHRINK_RATE = 0.12;
     private long[] noteDurations; // Array to store note durations
     private ArrayList<Integer> notes;
     private int sizeNotes;
+    // Define the range for randomness in reflection angle
+    private static final double REFLECTION_RANDOMNESS = 0.5; // Adjust as needed
 
     @Override
     public void start(Stage primaryStage) {
@@ -162,6 +164,7 @@ public class BouncingBallFX extends Application {
             // Calculate reflection angle
             double incidenceAngle = Math.atan2(ballDY, ballDX);
             double reflectionAngle = 2 * angleToCenter - incidenceAngle + Math.PI;
+            reflectionAngle += (random.nextDouble() - 0.5) * REFLECTION_RANDOMNESS; // Add randomness
 
             // Update ball direction using reflection formula
             double speed = Math.sqrt(ballDX * ballDX + ballDY * ballDY);
