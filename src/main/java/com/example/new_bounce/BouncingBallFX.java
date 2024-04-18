@@ -2,19 +2,21 @@ package com.example.new_bounce;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-import javax.sound.sampled.*;
+import javax.sound.midi.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,95 +24,93 @@ import java.util.List;
 import java.util.Random;
 
 public class BouncingBallFX extends Application {
-    private static final int WIDTH = 600;
-    private static final int HEIGHT = 600;
-    private static final int BORDER_THICKNESS = 15;
-    private static final int BORDER_SIZE = 100;
-    private static double BALL_SIZE = 20; // Initial size of the ball
-    private static final double BALL_VELOCITY = 1.2;
-    private static final double SIZE_INCREMENT = 0.31; // Size increment of the ball
-    private static final double SPEED_INCREMENT = 0.05; // Speed increment of the ball
-    private static final Duration FADE_DURATION = Duration.seconds(1); // Duration for background fade
+    private static final int WIDTH = 1000;
+    private static final int HEIGHT = 1200;
+    private static final int BORDER_RADIUS = 450;
+    private static double BALL_RADIUS = 25;
+    private static double GRAVITY = 0.18;
+    private static double SPEED_INCREMENT = 0.08;
+    private static double SIZE_INCREMENT = 3.15;
+    private static double INITIAL_VELOCITY_MIN = 0.5; // Changeable initial velocity range
+    private static double INITIAL_VELOCITY_MAX = 0.5; // Changeable initial velocity range
 
-    private double ballX = BORDER_SIZE + BALL_SIZE / 2;
-    private double ballY = BORDER_SIZE + BALL_SIZE / 2;
-    private double ballVelX = BALL_VELOCITY;
-    private double ballVelY = BALL_VELOCITY + 1;
-
-    private final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW, Color.ORANGE, Color.PURPLE};
-    private final List<String> wavFilePaths = new ArrayList<>();
-    private final Random random = new Random();
+    private double ballX = 50; // initial position of the ball
+    private double ballY = 150; // initial position of the ball
+    private double ballDX; // initial speed in the x direction
+    private double ballDY; // initial speed in the y direction
     private int collisionCount = 0;
 
-    private Rectangle background; // Declare background as a class member variable
-    private Timeline fadeTimeline; // Timeline for fading the background color back to black
-    private Text collisionText; // Text node to display collision count
+    private final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
+    private Color currentColor = Color.RED; // Initialize with any color
+    private Circle border;
+    private Circle ball;
+    private List<Circle> tail = new ArrayList<>(); // List to hold the circles forming the tail
+    private Text collisionText;
+
+    private Random random = new Random();
+    private Color tailColor = Color.GRAY; // Default tail color
+    private Pane root;
+
+    private Color targetBallColor = Color.RED; // Initial target ball color
+    private Color targetBorderColor = Color.RED; // Initial target border color
+
+    private long[] noteDurations; // Array to store note durations
+    private ArrayList<Integer> notes;
+    private int sizeNotes;
 
     @Override
     public void start(Stage primaryStage) {
-        Pane root = new Pane();
+        root = new Pane();
         root.setStyle("-fx-background-color: black;");
 
-        // Create a rectangle to represent the border of the box
-        Rectangle border = new Rectangle(BORDER_SIZE, BORDER_SIZE, WIDTH - 2 * BORDER_SIZE, HEIGHT - 2 * BORDER_SIZE);
-        border.setFill(null);
-        border.setStrokeWidth(BORDER_THICKNESS);
-        border.setStroke(Color.RED);
+        loadMidiFile();
 
-        // Create a rectangle to cover the area outside the box
-        background = new Rectangle(0, 0, WIDTH, HEIGHT); // Initialize background
-        background.setFill(Color.BLACK);
-        root.getChildren().addAll(background, border); // Add both rectangles to the root pane
-
-        Rectangle ball = new Rectangle(ballX, ballY, BALL_SIZE, BALL_SIZE);
-        ball.setFill(vibrantColors[0]);
-
-        root.getChildren().addAll(ball);
-
-        // Create text node to display collision count
-        collisionText = new Text("Collisions: 0");
-        collisionText.setFont(Font.font("Arial", 30));
-        collisionText.setFill(Color.WHITE);
-        collisionText.setTranslateX(220);
-        collisionText.setTranslateY(30);
-        root.getChildren().add(collisionText);
-
-        loadWavFiles(); // Load WAV files
-
-        // Timeline to change border color
-        Timeline borderTimeline = new Timeline(
-                new KeyFrame(Duration.ZERO, new KeyValue(border.strokeProperty(), Color.RED)),
-                new KeyFrame(Duration.seconds(1), new KeyValue(border.strokeProperty(), Color.BLUE))
-        );
-        borderTimeline.setCycleCount(Timeline.INDEFINITE);
-        borderTimeline.setAutoReverse(true);
-        borderTimeline.play();
-
-        // Timeline to change ball color
-        KeyValue[] colorKeyValues = new KeyValue[vibrantColors.length];
-        for (int i = 0; i < vibrantColors.length; i++) {
-            colorKeyValues[i] = new KeyValue(ball.fillProperty(), vibrantColors[i]);
+        // Initialize Synthesizer instance when the application starts
+        try {
+            synth = MidiSystem.getSynthesizer();
+            synth.open();
+        } catch (MidiUnavailableException e) {
+            e.printStackTrace();
         }
 
-        // Create key frames for smooth color transition
-        KeyFrame[] colorKeyFrames = new KeyFrame[vibrantColors.length];
-        for (int i = 0; i < vibrantColors.length; i++) {
-            colorKeyFrames[i] = new KeyFrame(Duration.seconds(i), colorKeyValues[i]);
-        }
+        // Other initialization code...
 
-        // Timeline to change ball color
-        Timeline ballColorTimeline = new Timeline(colorKeyFrames);
-        ballColorTimeline.setCycleCount(Timeline.INDEFINITE);
-        ballColorTimeline.setAutoReverse(true);
-        ballColorTimeline.play();
-
-        // Animation for moving the ball
-        new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                moveBall(ball);
+        primaryStage.setOnCloseRequest(event -> {
+            // Close the Synthesizer instance when the application exits
+            if (synth != null && synth.isOpen()) {
+                synth.close();
             }
-        }.start();
+        });
+        Button startButton = new Button("Start");
+        startButton.setTranslateX(450);
+        startButton.setTranslateY(1000);
+
+
+
+        // Event handler for the button
+
+
+        root.getChildren().add(startButton);
+
+        border = new Circle(WIDTH / 2.0, HEIGHT / 2.0, BORDER_RADIUS);
+        border.setFill(null);
+        border.setStrokeWidth(15);
+        border.setStroke(currentColor); // Set the color of the border to currentColor
+
+        // Initialize ball's initial direction randomly with changeable initial velocity
+        ballDX = random.nextDouble() * (INITIAL_VELOCITY_MAX - INITIAL_VELOCITY_MIN) + INITIAL_VELOCITY_MIN;
+        ballDY = random.nextDouble() * (INITIAL_VELOCITY_MAX - INITIAL_VELOCITY_MIN) + INITIAL_VELOCITY_MIN;
+
+        ball = new Circle(ballX, ballY, BALL_RADIUS);
+        ball.setFill(currentColor); // Set the color of the ball to currentColor
+
+        collisionText = new Text("Collisions: " + collisionCount);
+        collisionText.setFont(Font.font("Arial", 50));
+        collisionText.setFill(Color.WHITE);
+        collisionText.setTranslateX(370);
+        collisionText.setTranslateY(80);
+
+        root.getChildren().addAll(border, ball, collisionText);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setScene(scene);
@@ -118,129 +118,203 @@ public class BouncingBallFX extends Application {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        // Initialize and start fade timeline
-        fadeTimeline = new Timeline();
-        fadeTimeline.setCycleCount(1);
-        fadeTimeline.setAutoReverse(true);
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                updateBallPosition();
+                updateTail();
+            }
+        };
+        startButton.setOnAction(event -> {
+            // Hide the button after it's pressed
+            startButton.setVisible(false);
+
+            // Schedule the start of the game after a delay
+            Timeline gameStartTimeline = new Timeline(new KeyFrame(Duration.seconds(3), e ->  timer.start()));
+            gameStartTimeline.play();
+        });
     }
 
-    // Load WAV files
-    private void loadWavFiles() {
-        File folder = new File("src/main/java/com/example/new_bounce/keyNotes");
-        File[] files = folder.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                wavFilePaths.add(file.getPath());
-            }
+    private void updateBallPosition() {
+        // Apply gravity
+        ballDY += GRAVITY;
+
+        // Update ball position
+        ballX += ballDX;
+        ballY += ballDY;
+
+        // Gradually transition ball color towards the target ball color
+        Color currentBallColor = (Color) ball.getFill();
+        ball.setFill(currentBallColor.interpolate(targetBallColor, 0.005)); // Adjust the interpolation factor as needed
+
+        // Gradually transition border color towards the target border color
+        Color currentBorderColor = (Color) border.getStroke();
+        border.setStroke(currentBorderColor.interpolate(targetBorderColor, 0.005)); // Adjust the interpolation factor as needed
+
+        // Check for collisions with border
+        double dx = ballX - border.getCenterX();
+        double dy = ballY - border.getCenterY();
+        double distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (distance + BALL_RADIUS >= BORDER_RADIUS) {
+            playNotesWhenAsked(collisionCount);
+            // Calculate angle to the center of the outer circle
+            double angleToCenter = Math.atan2(dy, dx);
+
+            // Calculate reflection angle
+            double incidenceAngle = Math.atan2(ballDY, ballDX);
+            double reflectionAngle = 2 * angleToCenter - incidenceAngle + Math.PI;
+
+            // Update ball direction using reflection formula
+            double speed = Math.sqrt(ballDX * ballDX + ballDY * ballDY);
+            ballDX = Math.cos(reflectionAngle) * (speed + SPEED_INCREMENT);
+            ballDY = Math.sin(reflectionAngle) * (speed + SPEED_INCREMENT);
+
+            // Increase the size of the ball
+            BALL_RADIUS += SIZE_INCREMENT;
+
+            // Update collision count
+            collisionCount++;
+            collisionText.setText("Collisions: " + collisionCount);
+
+            // Change the target colors
+            targetBallColor = vibrantColors[(collisionCount + 1) % vibrantColors.length];
+            targetBorderColor = vibrantColors[(collisionCount + 1) % vibrantColors.length];
+        }
+
+        // Ensure the ball stays inside the boundary
+        if (distance + BALL_RADIUS > BORDER_RADIUS) {
+            double normX = dx / distance;
+            double normY = dy / distance;
+            ballX = border.getCenterX() + normX * (BORDER_RADIUS - BALL_RADIUS);
+            ballY = border.getCenterY() + normY * (BORDER_RADIUS - BALL_RADIUS);
+        }
+
+        ball.setCenterX(ballX);
+        ball.setCenterY(ballY);
+        ball.setRadius(BALL_RADIUS);
+    }
+
+    private void updateTail() {
+        // Create a new circle for the tail piece
+        Circle newTailPiece = new Circle(ball.getCenterX(), ball.getCenterY(), BALL_RADIUS * 0.9); // Adjust the size of the tail pieces as needed
+        newTailPiece.setFill(tailColor); // Set the color of the tail piece
+
+        // Limit the number of tail pieces
+        if (tail.size() > 20) { // Adjust the number of tail pieces as needed
+            root.getChildren().remove(tail.remove(0)); // Remove the oldest tail piece from the root pane and the tail list
+        }
+
+        // Set transparency based on position in the tail
+        double transparency = 1.0;
+        for (int i = tail.size(); i > 0; i--) {
+            tail.get(i - 1).setOpacity(transparency);
+            transparency *= 0.8; // Adjust the rate of transparency decrease as needed
+        }
+
+        // Add the new tail piece to the root pane and the tail list
+        root.getChildren().add(0, newTailPiece); // Add the tail piece before the ball
+        tail.add(newTailPiece);
+    }
+
+    private void loadMidiFile() {
+        // Load MIDI file
+        try {
+            File midiFile = new File("src/main/java/com/example/new_bounce/midi/meme.mid");
+            Sequence sequence = MidiSystem.getSequence(midiFile);
+            notes = extractNotesFromMidi(sequence);
+            noteDurations = calculateNoteDurations(sequence);
+        } catch (InvalidMidiDataException | IOException e) {
+            e.printStackTrace();
+            // Handle loading error according to your application logic
         }
     }
 
-    // Play a random WAV file
-    private void playRandomWav() {
-        if (!wavFilePaths.isEmpty()) {
-            try {
-                File randomWavFile = new File(wavFilePaths.get(random.nextInt(wavFilePaths.size())));
-                AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(randomWavFile);
-
-                // Get the audio format of the file
-                AudioFormat format = audioInputStream.getFormat();
-                if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED || format.getSampleSizeInBits() != 16) {
-                    // Convert the audio format to a supported one (PCM_SIGNED, 16-bit)
-                    AudioFormat targetFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                            format.getSampleRate(), 16, format.getChannels(),
-                            format.getChannels() * 2, format.getSampleRate(), false);
-                    audioInputStream = AudioSystem.getAudioInputStream(targetFormat, audioInputStream);
+    private ArrayList<Integer> extractNotesFromMidi(Sequence sequence) {
+        ArrayList<Integer> notes = new ArrayList<>();
+        for (Track track : sequence.getTracks()) {
+            for (int i = 0; i < track.size(); i++) {
+                MidiEvent event = track.get(i);
+                MidiMessage message = event.getMessage();
+                if (message instanceof ShortMessage) {
+                    ShortMessage sm = (ShortMessage) message;
+                    if (sm.getCommand() == ShortMessage.NOTE_ON) {
+                        int note = sm.getData1();
+                        notes.add(note);
+                    }
                 }
-
-                // Open and play the converted audio stream
-                Clip clip = AudioSystem.getClip();
-                clip.open(audioInputStream);
-                clip.start();
-            } catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
-                e.printStackTrace();
             }
         }
+        sizeNotes = notes.size();
+        return notes;
     }
 
-    private void moveBall(Rectangle ball) {
-        double fullThickness = BORDER_THICKNESS - 5;
+    private long[] calculateNoteDurations(Sequence sequence) {
+        long[] durations = new long[128]; // Assuming MIDI note numbers range from 0 to 127
+        for (Track track : sequence.getTracks()) {
+            int currentNote = -1;
+            boolean noteOn = false;
+            long noteOnTime = 0;
 
-        ballX += ballVelX;
-        ballY += ballVelY;
+            for (int i = 0; i < track.size(); i++) {
+                MidiEvent event = track.get(i);
+                MidiMessage message = event.getMessage();
 
-        // Check collision with walls
-        if (ballX < BORDER_SIZE + fullThickness) {
-            ballX = BORDER_SIZE + fullThickness;
-            ballVelX *= -1.0 - SPEED_INCREMENT;
-            BALL_SIZE += SIZE_INCREMENT; // Increase ball size
-            playRandomWav();
-            background.setFill(getRandomColorWithTransparency(0.5)); // Change background color with 50% transparency
-            fadeTimeline.getKeyFrames().setAll(
-                    new KeyFrame(Duration.ZERO, new KeyValue(background.fillProperty(), Color.BLACK)),
-                    new KeyFrame(FADE_DURATION, new KeyValue(background.fillProperty(), getRandomColorWithTransparency(0.5)))
-            );
-            fadeTimeline.playFromStart(); // Start the fade timeline
-            collisionCount++;
-        } else if (ballX > WIDTH - BORDER_SIZE - BALL_SIZE - fullThickness) {
-            ballX = WIDTH - BORDER_SIZE - BALL_SIZE - fullThickness;
-            ballVelX *= -1.0 - SPEED_INCREMENT;
-            BALL_SIZE += SIZE_INCREMENT; // Increase ball size
-            playRandomWav();
-            background.setFill(getRandomColorWithTransparency(0.5)); // Change background color with 50% transparency
-            fadeTimeline.getKeyFrames().setAll(
-                    new KeyFrame(Duration.ZERO, new KeyValue(background.fillProperty(), Color.BLACK)),
-                    new KeyFrame(FADE_DURATION, new KeyValue(background.fillProperty(), getRandomColorWithTransparency(0.5)))
-            );
-            fadeTimeline.playFromStart(); // Start the fade timeline
-            collisionCount++;
+                if (message instanceof ShortMessage) {
+                    ShortMessage sm = (ShortMessage) message;
+                    int command = sm.getCommand();
+                    int data1 = sm.getData1();
+
+                    if (command == ShortMessage.NOTE_ON && data1 >= 0 && data1 < durations.length) {
+                        if (!noteOn) {
+                            noteOn = true;
+                            currentNote = data1;
+                            noteOnTime = event.getTick();
+                        }
+                    }
+
+                    if (command == ShortMessage.NOTE_OFF && data1 == currentNote && noteOn) {
+                        durations[currentNote] = event.getTick() - noteOnTime;
+                        noteOn = false;
+                    }
+                }
+            }
         }
-
-        if (ballY < BORDER_SIZE + fullThickness) {
-            ballY = BORDER_SIZE + fullThickness;
-            ballVelY *= -1.0 - SPEED_INCREMENT;
-            BALL_SIZE += SIZE_INCREMENT; // Increase ball size
-            playRandomWav();
-            background.setFill(getRandomColorWithTransparency(0.5)); // Change background color with 50% transparency
-            fadeTimeline.getKeyFrames().setAll(
-                    new KeyFrame(Duration.ZERO, new KeyValue(background.fillProperty(), Color.BLACK)),
-                    new KeyFrame(FADE_DURATION, new KeyValue(background.fillProperty(), getRandomColorWithTransparency(0.5)))
-            );
-            fadeTimeline.playFromStart(); // Start the fade timeline
-            collisionCount++;
-        } else if (ballY > HEIGHT - BORDER_SIZE - BALL_SIZE - fullThickness) {
-            ballY = HEIGHT - BORDER_SIZE - BALL_SIZE - fullThickness;
-            ballVelY *= -1.0 - SPEED_INCREMENT;
-            BALL_SIZE += SIZE_INCREMENT; // Increase ball size
-            playRandomWav();
-            background.setFill(getRandomColorWithTransparency(0.5)); // Change background color with 50% transparency
-            fadeTimeline.getKeyFrames().setAll(
-                    new KeyFrame(Duration.ZERO, new KeyValue(background.fillProperty(), Color.BLACK)),
-                    new KeyFrame(FADE_DURATION, new KeyValue(background.fillProperty(), getRandomColorWithTransparency(0.5)))
-            );
-            fadeTimeline.playFromStart(); // Start the fade timeline
-            collisionCount++;
-        }
-
-        // Adjust ball size to stay within wall area
-        if (BALL_SIZE > WIDTH - 2 * (BORDER_SIZE + fullThickness)) {
-            BALL_SIZE = (int) Math.min(WIDTH - 2 * (BORDER_SIZE + fullThickness), HEIGHT - 2 * (BORDER_SIZE + fullThickness));
-        }
-
-        // Update ball properties
-        ball.setX(ballX);
-        ball.setY(ballY);
-        ball.setWidth(BALL_SIZE);
-        ball.setHeight(BALL_SIZE);
-
-        // Update collision count text
-        collisionText.setText("Collisions: " + collisionCount);
+        return durations;
     }
 
-    // Generate a random color with transparency
-    private Color getRandomColorWithTransparency(double transparency) {
-        Color randomColor = vibrantColors[random.nextInt(vibrantColors.length)];
-        return new Color(randomColor.getRed(), randomColor.getGreen(), randomColor.getBlue(), transparency);
+    private long getNoteDuration(int noteNumber) {
+        if (noteNumber < 0 || noteNumber >= noteDurations.length) {
+            System.err.println("Invalid note number!");
+            return -1; // Return default value or handle the error accordingly
+        }
+        return noteDurations[noteNumber];
     }
+
+    private void playNotesWhenAsked(int noteNumber) {
+        playNoteWithDelay(notes.get(noteNumber % sizeNotes), getNoteDuration(notes.get(noteNumber % sizeNotes)));
+    }
+
+    private void playNoteWithDelay(int note, long duration) {
+        try {
+            if (synth != null && synth.isOpen()) {
+                MidiChannel channel = synth.getChannels()[0];
+
+                // Play the note after a delay
+                channel.noteOn(note, 500);
+
+                // Schedule note-off event after a delay
+                Timeline timeline = new Timeline(new KeyFrame(Duration.millis(duration), event -> {
+                    channel.noteOff(note);
+                }));
+                timeline.play();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Synthesizer synth;
 
     public static void main(String[] args) {
         launch(args);
