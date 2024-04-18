@@ -5,23 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="accded19-9da6-4230-a5b9-892491923ed9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/meme.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/infographic-pop-1-197868.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/infographic-pop-10-197877.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/infographic-pop-2-197871.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/infographic-pop-3-197869.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/infographic-pop-4-197870.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/infographic-pop-6-197873.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/infographic-pop-7-197874.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/infographic-pop-8-197875.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/keyNotes/infographic-pop-9-197876.mp3" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -107,5 +105,16 @@
       <updated>1712186967996</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java</url>
+          <line>97</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

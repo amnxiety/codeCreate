@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -24,16 +25,16 @@ import java.util.Random;
 
 public class BouncingBallFX extends Application {
     private static final int WIDTH = 1000;
-    private static final int HEIGHT = 1000;
+    private static final int HEIGHT = 1200;
     private static final int BORDER_RADIUS = 450;
     private static double BALL_RADIUS = 25;
-    private static double GRAVITY = 0.1;
-    private static double SPEED_INCREMENT = 0.05;
-    private static double SIZE_INCREMENT = 2.3;
+    private static double GRAVITY = 0.18;
+    private static double SPEED_INCREMENT = 0.08;
+    private static double SIZE_INCREMENT = 3.15;
     private static double INITIAL_VELOCITY_MIN = 0.5; // Changeable initial velocity range
     private static double INITIAL_VELOCITY_MAX = 0.5; // Changeable initial velocity range
 
-    private double ballX = 150; // initial position of the ball
+    private double ballX = 50; // initial position of the ball
     private double ballY = 150; // initial position of the ball
     private double ballDX; // initial speed in the x direction
     private double ballDY; // initial speed in the y direction
@@ -53,11 +54,14 @@ public class BouncingBallFX extends Application {
     private Color targetBallColor = Color.RED; // Initial target ball color
     private Color targetBorderColor = Color.RED; // Initial target border color
 
+    private long[] noteDurations; // Array to store note durations
+    private ArrayList<Integer> notes;
+    private int sizeNotes;
+
     @Override
     public void start(Stage primaryStage) {
         root = new Pane();
         root.setStyle("-fx-background-color: black;");
-
 
         loadMidiFile();
 
@@ -77,7 +81,16 @@ public class BouncingBallFX extends Application {
                 synth.close();
             }
         });
+        Button startButton = new Button("Start");
+        startButton.setTranslateX(450);
+        startButton.setTranslateY(1000);
 
+
+
+        // Event handler for the button
+
+
+        root.getChildren().add(startButton);
 
         border = new Circle(WIDTH / 2.0, HEIGHT / 2.0, BORDER_RADIUS);
         border.setFill(null);
@@ -92,10 +105,10 @@ public class BouncingBallFX extends Application {
         ball.setFill(currentColor); // Set the color of the ball to currentColor
 
         collisionText = new Text("Collisions: " + collisionCount);
-        collisionText.setFont(Font.font("Arial", 30));
+        collisionText.setFont(Font.font("Arial", 50));
         collisionText.setFill(Color.WHITE);
-        collisionText.setTranslateX(220);
-        collisionText.setTranslateY(30);
+        collisionText.setTranslateX(370);
+        collisionText.setTranslateY(80);
 
         root.getChildren().addAll(border, ball, collisionText);
 
@@ -112,7 +125,14 @@ public class BouncingBallFX extends Application {
                 updateTail();
             }
         };
-        timer.start();
+        startButton.setOnAction(event -> {
+            // Hide the button after it's pressed
+            startButton.setVisible(false);
+
+            // Schedule the start of the game after a delay
+            Timeline gameStartTimeline = new Timeline(new KeyFrame(Duration.seconds(3), e ->  timer.start()));
+            gameStartTimeline.play();
+        });
     }
 
     private void updateBallPosition() {
@@ -197,59 +217,94 @@ public class BouncingBallFX extends Application {
         tail.add(newTailPiece);
     }
 
-    ArrayList<Integer> notes;
-    private void loadMidiFile(){
+    private void loadMidiFile() {
         // Load MIDI file
-        File midiFile = new File("src/main/java/com/example/new_bounce/midi/meme.mid");
-
-        // Extract notes from MIDI file
-        notes = extractNotesFromMidi(midiFile);
-
+        try {
+            File midiFile = new File("src/main/java/com/example/new_bounce/midi/meme.mid");
+            Sequence sequence = MidiSystem.getSequence(midiFile);
+            notes = extractNotesFromMidi(sequence);
+            noteDurations = calculateNoteDurations(sequence);
+        } catch (InvalidMidiDataException | IOException e) {
+            e.printStackTrace();
+            // Handle loading error according to your application logic
+        }
     }
 
-    private ArrayList<Integer> extractNotesFromMidi(File midiFile) {
+    private ArrayList<Integer> extractNotesFromMidi(Sequence sequence) {
         ArrayList<Integer> notes = new ArrayList<>();
-
-        try {
-            Sequence sequence = MidiSystem.getSequence(midiFile);
-            for (Track track : sequence.getTracks()) {
-                for (int i = 0; i < track.size(); i++) {
-                    MidiEvent event = track.get(i);
-                    MidiMessage message = event.getMessage();
-                    if (message instanceof ShortMessage) {
-                        ShortMessage sm = (ShortMessage) message;
-                        if (sm.getCommand() == ShortMessage.NOTE_ON) {
-                            int note = sm.getData1();
-                            notes.add(note);
-                        }
+        for (Track track : sequence.getTracks()) {
+            for (int i = 0; i < track.size(); i++) {
+                MidiEvent event = track.get(i);
+                MidiMessage message = event.getMessage();
+                if (message instanceof ShortMessage) {
+                    ShortMessage sm = (ShortMessage) message;
+                    if (sm.getCommand() == ShortMessage.NOTE_ON) {
+                        int note = sm.getData1();
+                        notes.add(note);
                     }
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         sizeNotes = notes.size();
         return notes;
     }
-    int sizeNotes;
-    private void playNotesWhenAsked(int noteNumber) {
-            playNoteWithDelay(notes.get(noteNumber % sizeNotes));
+
+    private long[] calculateNoteDurations(Sequence sequence) {
+        long[] durations = new long[128]; // Assuming MIDI note numbers range from 0 to 127
+        for (Track track : sequence.getTracks()) {
+            int currentNote = -1;
+            boolean noteOn = false;
+            long noteOnTime = 0;
+
+            for (int i = 0; i < track.size(); i++) {
+                MidiEvent event = track.get(i);
+                MidiMessage message = event.getMessage();
+
+                if (message instanceof ShortMessage) {
+                    ShortMessage sm = (ShortMessage) message;
+                    int command = sm.getCommand();
+                    int data1 = sm.getData1();
+
+                    if (command == ShortMessage.NOTE_ON && data1 >= 0 && data1 < durations.length) {
+                        if (!noteOn) {
+                            noteOn = true;
+                            currentNote = data1;
+                            noteOnTime = event.getTick();
+                        }
+                    }
+
+                    if (command == ShortMessage.NOTE_OFF && data1 == currentNote && noteOn) {
+                        durations[currentNote] = event.getTick() - noteOnTime;
+                        noteOn = false;
+                    }
+                }
+            }
+        }
+        return durations;
     }
 
-    private Synthesizer synth;
-    // Method to play a single note
-    // Method to play a single note with a delay
-    // Modified playNoteWithDelay method to reuse the Synthesizer instance
-    private void playNoteWithDelay(int note) {
+    private long getNoteDuration(int noteNumber) {
+        if (noteNumber < 0 || noteNumber >= noteDurations.length) {
+            System.err.println("Invalid note number!");
+            return -1; // Return default value or handle the error accordingly
+        }
+        return noteDurations[noteNumber];
+    }
+
+    private void playNotesWhenAsked(int noteNumber) {
+        playNoteWithDelay(notes.get(noteNumber % sizeNotes), getNoteDuration(notes.get(noteNumber % sizeNotes)));
+    }
+
+    private void playNoteWithDelay(int note, long duration) {
         try {
             if (synth != null && synth.isOpen()) {
                 MidiChannel channel = synth.getChannels()[0];
 
                 // Play the note after a delay
                 channel.noteOn(note, 500);
-                long duration = calculateNoteDuration(note);
+
                 // Schedule note-off event after a delay
-                Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(duration), event -> {
+                Timeline timeline = new Timeline(new KeyFrame(Duration.millis(duration), event -> {
                     channel.noteOff(note);
                 }));
                 timeline.play();
@@ -259,49 +314,7 @@ public class BouncingBallFX extends Application {
         }
     }
 
-    private long calculateNoteDuration(int noteNumber) throws InvalidMidiDataException, IOException {
-        long duration = 0;
-        File midiFile = new File("src/main/java/com/example/new_bounce/midi/meme.mid");
-        Sequence sequence = MidiSystem.getSequence(midiFile);
-
-        int currentNote = -1;
-        boolean noteOn = false;
-        long noteOnTime = 0;
-
-        for (Track track : sequence.getTracks()) {
-            for (int i = 0; i < track.size(); i++) {
-                MidiEvent event = track.get(i);
-                MidiMessage message = event.getMessage();
-
-                // Check if the message is a ShortMessage (i.e., a MIDI message)
-                if (message instanceof ShortMessage) {
-                    ShortMessage sm = (ShortMessage) message;
-                    int command = sm.getCommand();
-                    int data1 = sm.getData1();
-
-                    // If it's a note-on event and matches the note we're interested in
-                    if (command == ShortMessage.NOTE_ON && data1 == noteNumber) {
-                        if (!noteOn) {
-                            noteOn = true;
-                            currentNote = data1;
-                            noteOnTime = event.getTick();
-                        }
-                    }
-
-                    // If it's a note-off event for the current note
-                    if (command == ShortMessage.NOTE_OFF && data1 == currentNote && noteOn) {
-                        duration = event.getTick() - noteOnTime;
-                        noteOn = false;
-                        break; // Exit the loop since we found the duration
-                    }
-                }
-            }
-        }
-
-        // Convert ticks to milliseconds (assuming default tempo)
-        return duration * 60000 / 120 / sequence.getResolution();
-    }
-
+    private Synthesizer synth;
 
     public static void main(String[] args) {
         launch(args);
