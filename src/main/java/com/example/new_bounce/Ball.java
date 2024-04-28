@@ -13,7 +13,7 @@ import java.util.List;
 public class Ball {
     private static final double SIZE_INCREMENT = 3.15;
     private static final double BORDER_RADIUS = 250;
-    private static final double SPEED_INCREMENT = 0.000;
+    private static final double SPEED_INCREMENT = 0.1;
     private final Text collisionText;
     private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/sad.mid");
     //    private static final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
@@ -32,6 +32,7 @@ public class Ball {
     private double dx;
     private double dy;
     private Line lineToBorder;
+    public double distanceToCenterPublic;
 
     public Ball(double x, double y, double dx, double dy, double radius, Color color, Text collisionText, ObservableList<Node> children) {
         this.x = x;
@@ -47,23 +48,35 @@ public class Ball {
 
     }
 
-    public void updatePosition(double gravity, Circle border) {
+    public void updatePosition(double gravity, List<Border> allBorder) {
+
+        for(Border border: allBorder){
+            border.getCircle().setRadius(border.getCircle().getRadius() - 2);
+        }
+
         dy += gravity;
         radius = circle.getRadius() + 10;
         x += dx;
         y += dy;
 
+        if(allBorder.isEmpty()){
+            BouncingBallFX.flag = true;
+            allBorder.add(new Border(1500 / 2.0, 1400 / 2.0, 26000, staticConstants.rgbColors.get(1)));
+        }
+
+        Border border = allBorder.getFirst();
+
         // Check for collisions with border
-        double dxToCenter = x - border.getCenterX();
-        double dyToCenter = y - border.getCenterY();
+        double dxToCenter = x - border.getCircle().getCenterX();
+        double dyToCenter = y - border.getCircle().getCenterY();
         double distanceToCenter = Math.sqrt(dxToCenter * dxToCenter + dyToCenter * dyToCenter);
 
+        distanceToCenterPublic = distanceToCenter;
 
-        if (distanceToCenter + radius >= border.getRadius()) {
+        if (distanceToCenter + radius >= border.getCircle().getRadius()) {
 
             musicPlayer.playNotesWhenAsked();
 
-            border.setRadius(border.getRadius() - 20);
 
             double angleToCenter = Math.atan2(dyToCenter, dxToCenter);
             double incidenceAngle = Math.atan2(dy, dx);
@@ -75,13 +88,17 @@ public class Ball {
 
             collisionCount++;
             collisionText.setText("Collisions: " + collisionCount);
+
+
+            children.remove(allBorder.getFirst().getCircle());
+            allBorder.removeFirst();
         }
 
-        if (distanceToCenter + radius >= border.getRadius()) {
+        if (distanceToCenter + radius >= border.getCircle().getRadius()) {
             double normX = dxToCenter / distanceToCenter;
             double normY = dyToCenter / distanceToCenter;
-            x = border.getCenterX() + normX * (border.getRadius() - radius);
-            y = border.getCenterY() + normY * (border.getRadius() - radius);
+            x = border.getCircle().getCenterX() + normX * (border.getCircle().getRadius() - radius);
+            y = border.getCircle().getCenterY() + normY * (border.getCircle().getRadius() - radius);
         }
         updateCirclePosition();
     }

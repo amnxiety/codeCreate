@@ -1,17 +1,19 @@
 package com.example.new_bounce;
 
-import javafx.animation.AnimationTimer;
-import javafx.animation.PauseTransition;
+import javafx.animation.*;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class BouncingBallFX extends Application {
@@ -27,6 +29,8 @@ public class BouncingBallFX extends Application {
     private Pane root;
     private Text collisionText;
 
+    List<Border> allBorders = new ArrayList<>();
+    public static boolean flag;
     public static void main(String[] args) {
         launch(args);
     }
@@ -38,16 +42,20 @@ public class BouncingBallFX extends Application {
 
         setCollisionCounter();
 
-        border = new Border(WIDTH / 2.0, HEIGHT / 2.0, 600, staticConstants.rgbColors.get(1)); // Initial border color
-        ball = new Ball(WIDTH / 2.0, HEIGHT / 3, 4, -4, 40, staticConstants.rgbColors.getFirst(), collisionText, root.getChildren());
+//        border = new Border(WIDTH / 2.0, HEIGHT / 2.0, 600, staticConstants.rgbColors.get(1)); // Initial border color
+
 
         Button startButton = new Button("Start");
         startButton.setTranslateX(450);
         startButton.setTranslateY(400);
 
-        root.getChildren().addAll(border.getCircle(), collisionText, startButton);
+//        root.getChildren().addAll(border.getCircle(), collisionText, startButton);
+        root.getChildren().addAll(collisionText, startButton);
+
+        ball = new Ball(WIDTH / 3.0, HEIGHT / 3, 6, -6, 20, staticConstants.rgbColors.getFirst(), collisionText, root.getChildren());
 
         handleStartButton(startButton);
+        scheduleNewBorder();
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setScene(scene);
@@ -67,21 +75,13 @@ public class BouncingBallFX extends Application {
 
 
                 // This code will be executed after the delay
-                final int[] colorNumber = {1};
                 AnimationTimer timer = new AnimationTimer() {
                     @Override
                     public void handle(long now) {
-                        if (ball.radius + 30 < 600) {
-                            ball.updatePosition(0.55, border.getCircle());
+
+                            ball.updatePosition(0.95, allBorders);
                             ball.updateTail(root.getChildren());
-                            if (border.getCircle().getRadius() <= ball.radius + 30) {
-                                root.getChildren().remove(border.getCircle());
-                                ball.addLayerToCircle(border.currentColor);
-                                colorNumber[0] += 1;
-                                border = new Border(WIDTH / 2.0, HEIGHT / 2.0, 600, staticConstants.rgbColors.get(colorNumber[0] % staticConstants.rgbColors.size()));
-                                root.getChildren().addAll(border.getCircle());
-                            }
-                        }
+
                     }
                 };
                 timer.start();
@@ -91,7 +91,20 @@ public class BouncingBallFX extends Application {
             delay.play();
         });
     }
+    private void scheduleNewBorder() {
+        final int[] colorNumber = {1}; // Start from 0
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(350), event -> {
+                if(!flag){
+                Border newBorder = new Border(WIDTH / 2.0, HEIGHT / 2.0, 600, staticConstants.rgbColors.get(colorNumber[0] % staticConstants.rgbColors.size()));
+                allBorders.addLast(newBorder);
+                root.getChildren().add(allBorders.getLast().getCircle());
+                colorNumber[0]++; // Increment color number
+                }
 
+        }));
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
     private void setCollisionCounter() {
         collisionText = new Text("Collisions: " + collisionCount);
         collisionText.setFont(Font.font("Arial", 50));
