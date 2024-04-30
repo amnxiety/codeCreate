@@ -13,7 +13,7 @@ import java.util.List;
 public class Ball {
     private static final double SIZE_INCREMENT = 3.15;
     private static final double BORDER_RADIUS = 250;
-    private static final double SPEED_INCREMENT = 0.1;
+    private static final double SPEED_INCREMENT = 0.25;
     private final Text collisionText;
     private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/sad.mid");
     //    private static final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
@@ -50,9 +50,7 @@ public class Ball {
 
     public void updatePosition(double gravity, List<Border> allBorder) {
 
-        for(Border border: allBorder){
-            border.getCircle().setRadius(border.getCircle().getRadius() - 2);
-        }
+
 
         dy += gravity;
         radius = circle.getRadius() + 10;
@@ -74,8 +72,10 @@ public class Ball {
         distanceToCenterPublic = distanceToCenter;
 
         if (distanceToCenter + radius >= border.getCircle().getRadius()) {
+            children.remove(allBorder.getFirst().getCircle());
+            allBorder.removeFirst();
 
-            musicPlayer.playNotesWhenAsked();
+            musicPlayer.playNotesTuneReversedWhenAsked();
 
 
             double angleToCenter = Math.atan2(dyToCenter, dxToCenter);
@@ -90,8 +90,6 @@ public class Ball {
             collisionText.setText("Collisions: " + collisionCount);
 
 
-            children.remove(allBorder.getFirst().getCircle());
-            allBorder.removeFirst();
         }
 
         if (distanceToCenter + radius >= border.getCircle().getRadius()) {
@@ -125,7 +123,11 @@ public class Ball {
         children.add(0, newTailPiece); // Add the tail piece before the ball
         tail.add(newTailPiece);
     }
-
+    public void updateBorder(List<Border> allBorder){
+        for(Border border: allBorder){
+            border.getCircle().setRadius(border.getCircle().getRadius() - 0.2);
+        }
+    }
     private void updateCirclePosition() {
         circle.setCenterX(x);
         circle.setCenterY(y);

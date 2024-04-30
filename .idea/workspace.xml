@@ -5,9 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="accded19-9da6-4230-a5b9-892491923ed9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/GFpiano.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/GFreal.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/POC.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/faded.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/kero1.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/kerosene.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/sad4.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/sad5.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/soulful.mid" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Border.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Border.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/MusicPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/MusicPlayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,23 +51,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BouncingBallFX (1).executor": "Run",
-    "Application.BouncingBallFX.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "circle__remove__bounce",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/GitSucks/codeCreate"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BouncingBallFX (1).executor&quot;: &quot;Run&quot;,
+    &quot;Application.BouncingBallFX.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;circle__remove__bounce&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/GitSucks/codeCreate/src/main/java/com/example/new_bounce/midi&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\GitSucks\codeCreate\src\main\java\com\example\new_bounce\midi" />
       <recent name="C:\AMAN\codeCreate\src\main\java\com\example\new_bounce\keyNotes" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\GitSucks\codeCreate\src\main\java\com\example\new_bounce\midi" />
       <recent name="C:\AMAN\codeCreate\src\main\java\com\example\new_bounce\midi" />
     </key>
   </component>
@@ -104,22 +117,17 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java</url>
-          <line>98</line>
+          <line>119</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java</url>
-          <line>100</line>
+          <line>121</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java</url>
-          <line>99</line>
+          <line>120</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>

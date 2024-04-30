@@ -13,7 +13,7 @@ public class Border {
         circle.setStrokeWidth(100);
         this.currentColor = color;
         circle.setStroke(currentColor);
-        this.circle.setStrokeWidth(30);
+        this.circle.setStrokeWidth(10);
     }
 
     public Circle getCircle() {
@@ -24,4 +24,5 @@ public class Border {
         this.currentColor = color;
         circle.setStroke(color);
     }
+
 }

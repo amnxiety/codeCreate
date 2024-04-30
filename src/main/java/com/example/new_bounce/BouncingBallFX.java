@@ -31,6 +31,8 @@ public class BouncingBallFX extends Application {
 
     List<Border> allBorders = new ArrayList<>();
     public static boolean flag;
+    public static boolean startFlag;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -52,10 +54,10 @@ public class BouncingBallFX extends Application {
 //        root.getChildren().addAll(border.getCircle(), collisionText, startButton);
         root.getChildren().addAll(collisionText, startButton);
 
-        ball = new Ball(WIDTH / 3.0, HEIGHT / 3, 6, -6, 20, staticConstants.rgbColors.getFirst(), collisionText, root.getChildren());
+        ball = new Ball(WIDTH / 2.0, HEIGHT / 2, 6, -6, 20, staticConstants.rgbColors.getFirst(), collisionText, root.getChildren());
 
         handleStartButton(startButton);
-        scheduleNewBorder();
+
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         primaryStage.setScene(scene);
@@ -73,14 +75,21 @@ public class BouncingBallFX extends Application {
             PauseTransition delay = new PauseTransition(Duration.seconds(3));
             delay.setOnFinished(e -> {
 
-
+                scheduleNewBorder();
                 // This code will be executed after the delay
                 AnimationTimer timer = new AnimationTimer() {
                     @Override
                     public void handle(long now) {
 
-                            ball.updatePosition(0.95, allBorders);
-                            ball.updateTail(root.getChildren());
+
+                            if(allBorders.size() >= 50){
+                                startFlag=true;
+                            }
+
+                            if(startFlag){
+                                ball.updatePosition(0.65, allBorders);
+                                ball.updateTail(root.getChildren());
+                            }
 
                     }
                 };
@@ -91,9 +100,21 @@ public class BouncingBallFX extends Application {
             delay.play();
         });
     }
+    private void startUpdateAnimation(){
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                ball.updateBorder(allBorders);
+            }
+        };
+        timer.start();
+
+    }
     private void scheduleNewBorder() {
+        startUpdateAnimation();
         final int[] colorNumber = {1}; // Start from 0
-        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(350), event -> {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
                 if(!flag){
                 Border newBorder = new Border(WIDTH / 2.0, HEIGHT / 2.0, 600, staticConstants.rgbColors.get(colorNumber[0] % staticConstants.rgbColors.size()));
                 allBorders.addLast(newBorder);

@@ -21,7 +21,7 @@ public class MusicPlayer {
         loadMidiFile(midiFilePath);
     }
 
-    public void playNotesWhenAsked() {
+    public void playNotesTuneReversedWhenAsked() {
         if (noteNumber == 0) {
             flag = false;
         }
@@ -33,6 +33,12 @@ public class MusicPlayer {
         } else {
             noteNumber += 1;
         }
+        playNoteWithDelay(notes.get(noteNumber % sizeNotes), getNoteDuration(notes.get(noteNumber % sizeNotes)));
+    }
+
+    public void playNotesNormallyWhenAsked() {
+
+        noteNumber += 1;
         playNoteWithDelay(notes.get(noteNumber % sizeNotes), getNoteDuration(notes.get(noteNumber % sizeNotes)));
     }
 
@@ -59,7 +65,7 @@ public class MusicPlayer {
                 MidiChannel channel = synth.getChannels()[0];
 
                 // Play the note after a delay
-                channel.noteOn(note, 000);
+                channel.noteOn(note, 500);
 
                 // Schedule note-off event after a delay
                 Timeline timeline = new Timeline(new KeyFrame(Duration.millis(duration), event -> {
