@@ -1,11 +1,14 @@
 package com.example.new_bounce;
 
+import javafx.animation.Animation;
+import javafx.animation.StrokeTransition;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +16,9 @@ import java.util.List;
 public class Ball {
     private static final double SIZE_INCREMENT = 3.15;
     private static final double BORDER_RADIUS = 250;
-    private static final double SPEED_INCREMENT = 0.000;
+    private static final double SPEED_INCREMENT = 0.01;
     private final Text collisionText;
-    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/sad.mid");
+    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/BL.mid");
     //    private static final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
     private final List<Circle> tail = new ArrayList<>();
     private final List<Circle> layers = new ArrayList<>();
@@ -41,7 +44,7 @@ public class Ball {
         this.radius = radius;
         this.color = color;
         this.collisionText = collisionText;
-        this.circle = createCircle();
+        this.circle = createCircleStockTransition();
         this.children = children;
         children.add(circle);
 
@@ -63,7 +66,7 @@ public class Ball {
 
             musicPlayer.playNotesWhenAsked();
 
-            border.setRadius(border.getRadius() - 20);
+            border.setRadius(border.getRadius());
 
             double angleToCenter = Math.atan2(dyToCenter, dxToCenter);
             double incidenceAngle = Math.atan2(dy, dx);
@@ -121,7 +124,7 @@ public class Ball {
 
     public void addLayerToCircle(Color color) {
         circle.setRadius(circle.getRadius() + 30);
-        Circle layer = createCircle();
+        Circle layer = createCircleStockTransition();
         layer.setFill(null);
         layer.setStrokeWidth(30);
         layer.setStroke(color);
@@ -134,9 +137,50 @@ public class Ball {
 
     }
 
-    public Circle createCircle() {
-        Circle circle = new Circle(x, y, radius);
-        circle.setFill(color);
+    public Circle createCircleStockTransition() {
+        Circle circle = new Circle(100, 100, 50);
+        circle.setFill(Color.TRANSPARENT);
+        circle.setStrokeWidth(15);
+
+
+        // Define the colors you want to transition between
+        Color[] colors = {Color.RED, Color.GREEN, Color.BLUE};
+
+        // Create a stroke transition to smoothly transition between colors
+        StrokeTransition strokeTransition = new StrokeTransition(Duration.seconds(2), circle);
+        strokeTransition.setAutoReverse(true); // Optionally, make the transition reversible
+        strokeTransition.setCycleCount(Animation.INDEFINITE); // Repeat the transition indefinitely
+
+        // Set up the color gradient
+        strokeTransition.setFromValue(colors[0]);
+        strokeTransition.setToValue(colors[colors.length - 1]);
+
+        // Start the transition
+        strokeTransition.play();
+
+        return circle;
+    }
+
+    public Circle createCircleFillTransition() {
+        Circle circle = new Circle(100, 100, 50);
+        circle.setFill(Color.TRANSPARENT);
+        circle.setStrokeWidth(15);
+
+        // Define the colors you want to transition between
+        Color[] colors = {Color.RED, Color.GREEN, Color.BLUE};
+
+        // Create a stroke transition to smoothly transition between colors
+        StrokeTransition strokeTransition = new StrokeTransition(Duration.seconds(2), circle);
+        strokeTransition.setAutoReverse(true); // Optionally, make the transition reversible
+        strokeTransition.setCycleCount(Animation.INDEFINITE); // Repeat the transition indefinitely
+
+        // Set up the color gradient
+        strokeTransition.setFromValue(colors[0]);
+        strokeTransition.setToValue(colors[colors.length - 1]);
+
+        // Start the transition
+        strokeTransition.play();
+
         return circle;
     }
 

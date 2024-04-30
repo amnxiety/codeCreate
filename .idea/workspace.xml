@@ -4,7 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="accded19-9da6-4230-a5b9-892491923ed9" name="Changes" comment="" />
+    <list default="true" id="accded19-9da6-4230-a5b9-892491923ed9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/BL.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/BlindingLight.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/COSHarryPotter.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/HPOS.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/M. Bedside - 140 BPM.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/M. Falling - 166 BPM.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/M. GuitarMe - 162 BPM.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/Pathetique.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/minecraft.mid" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/MusicPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/MusicPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/StaticConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/StaticConstants.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,7 +33,15 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main/java/com/example/new_bounce/MusicPlayer.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -42,17 +65,19 @@
     "Application.BouncingBallFX.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "normal__ring__bounce",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/YouTube/codeCreate"
+    "last_opened_file_path": "C:/gitworst/codeCreate/src/main/java/com/example/new_bounce/midi"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\gitworst\codeCreate\src\main\java\com\example\new_bounce\midi" />
       <recent name="C:\AMAN\codeCreate\src\main\java\com\example\new_bounce\keyNotes" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\gitworst\codeCreate\src\main\java\com\example\new_bounce\midi" />
       <recent name="C:\AMAN\codeCreate\src\main\java\com\example\new_bounce\midi" />
     </key>
   </component>
@@ -94,6 +119,17 @@
       <updated>1712186967996</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

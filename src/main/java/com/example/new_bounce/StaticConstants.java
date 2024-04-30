@@ -15,7 +15,7 @@ public class StaticConstants {
         addPallateColors();
     }
 
-    private void addPurpleColors() {
+    void addPurpleColors() {
         rgbColors.add(Color.rgb(70, 24, 115));
         rgbColors.add(Color.rgb(88, 20, 142));
         rgbColors.add(Color.rgb(105, 16, 168));
@@ -40,7 +40,7 @@ public class StaticConstants {
         rgbColors.add(Color.rgb(255, 225, 255));
     }
 
-    private void addPallateColors() {
+     void addPallateColors() {
         rgbColors.add(Color.rgb(178, 34, 34));
         rgbColors.add(Color.rgb(255, 0, 0));
         rgbColors.add(Color.rgb(255, 99, 71));
