@@ -5,20 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="accded19-9da6-4230-a5b9-892491923ed9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/BL.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/BlindingLight.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/COSHarryPotter.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/HPOS.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/M. Bedside - 140 BPM.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/M. Falling - 166 BPM.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/M. GuitarMe - 162 BPM.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/Pathetique.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/minecraft.mid" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/MusicPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/MusicPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/StaticConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/StaticConstants.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

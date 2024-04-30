@@ -8,8 +8,6 @@ import javax.sound.midi.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MusicPlayer {
     int noteNumber = 0;
@@ -18,7 +16,7 @@ public class MusicPlayer {
     private long[] noteDurations;
     private int sizeNotes;
     private Synthesizer synth;
-    private Map<Integer, Integer> noteChannels = new HashMap<>();
+
 
     public MusicPlayer(String midiFilePath) {
         loadMidiFile(midiFilePath);
@@ -36,10 +34,7 @@ public class MusicPlayer {
         } else {
             noteNumber += 1;
         }
-        int note = notes.get(noteNumber % sizeNotes);
-        int channel = noteChannels.getOrDefault(note, 0); // Get the channel for the note, default to 0 if not found
-        playNoteWithDelay(note, channel, (int) getNoteDuration(note));
-//        playNoteWithDelay(notes.get(noteNumber % sizeNotes), (int) getNoteDuration(notes.get(noteNumber % sizeNotes)));
+        playNoteWithDelay(notes.get(noteNumber % sizeNotes), getNoteDuration(notes.get(noteNumber % sizeNotes)));
     }
 
     private void loadMidiFile(String midiFilePath) {
@@ -59,15 +54,17 @@ public class MusicPlayer {
         }
     }
 
-    private void playNoteWithDelay(int note, int channel, long duration) {
+    private void playNoteWithDelay(int note, long duration) {
         try {
             if (synth != null && synth.isOpen()) {
-                MidiChannel midiChannel = synth.getChannels()[channel];
+                MidiChannel channel = synth.getChannels()[0];
+
                 // Play the note after a delay
-                midiChannel.noteOn(note, 100);
+                channel.noteOn(note, 100);
+
                 // Schedule note-off event after a delay
                 Timeline timeline = new Timeline(new KeyFrame(Duration.millis(duration), event -> {
-                    midiChannel.noteOff(note);
+                    channel.noteOff(note);
                 }));
                 timeline.play();
             }
@@ -84,11 +81,9 @@ public class MusicPlayer {
                 MidiEvent event = track.get(i);
                 MidiMessage message = event.getMessage();
                 if (message instanceof ShortMessage sm) {
-                    int channel = sm.getChannel();
                     if (sm.getCommand() == ShortMessage.NOTE_ON) {
                         int note = sm.getData1();
                         notes.add(note);
-                        noteChannels.put(note, channel); // Track the channel for each note
                     }
                 }
             }
@@ -106,19 +101,20 @@ public class MusicPlayer {
                 MidiEvent event = track.get(i);
                 MidiMessage message = event.getMessage();
 
-                if (message instanceof ShortMessage sm) {
-                    int channel = sm.getChannel();
+                if (message instanceof ShortMessage) {
+                    ShortMessage sm = (ShortMessage) message;
                     if (sm.getCommand() == ShortMessage.NOTE_ON) {
                         int note = sm.getData1();
                         int velocity = sm.getData2();
                         long noteOnTick = event.getTick();
+
                         // Find corresponding Note Off event
                         for (int j = i + 1; j < track.size(); j++) {
                             MidiEvent offEvent = track.get(j);
                             MidiMessage offMessage = offEvent.getMessage();
                             if (offMessage instanceof ShortMessage) {
                                 ShortMessage offSm = (ShortMessage) offMessage;
-                                if (offSm.getCommand() == ShortMessage.NOTE_OFF && offSm.getData1() == note && offSm.getChannel() == channel) {
+                                if (offSm.getCommand() == ShortMessage.NOTE_OFF && offSm.getData1() == note) {
                                     long noteOffTick = offEvent.getTick();
                                     float ticksPerMicrosecond = ticksPerBeat / (500000f / 60); // Assuming 120 BPM
                                     durations[note] = (long) (((noteOffTick - noteOnTick) / ticksPerMicrosecond) * velocity / 127.0f);
