@@ -18,7 +18,7 @@ public class Ball {
     private static final double BORDER_RADIUS = 250;
     private static final double SPEED_INCREMENT = 0.1;
     private final Text collisionText;
-    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/Pathetique.mid");
+    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/sad3.mid");
     //    private static final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
     private final List<Circle> tail = new ArrayList<>();
     private final List<Circle> layers = new ArrayList<>();
@@ -34,7 +34,7 @@ public class Ball {
     ObservableList<Node> children;
     private double dx;
     private double dy;
-    private Line lineToBorder;
+    private List<Line> lines = new ArrayList<>();
 
     public Ball(double x, double y, double dx, double dy, double radius, Color color, Text collisionText, ObservableList<Node> children) {
         this.x = x;
@@ -85,6 +85,9 @@ public class Ball {
             double normY = dyToCenter / distanceToCenter;
             x = border.getCenterX() + normX * (border.getRadius() - radius);
             y = border.getCenterY() + normY * (border.getRadius() - radius);
+
+            lines.add(getNewLine(normX,normY,border));
+            children.addFirst(lines.getLast());
         }
         updateCirclePosition();
     }
@@ -120,6 +123,11 @@ public class Ball {
             layer.setCenterX(x);
             layer.setCenterY(y);
         }
+
+        for( Line line:lines){
+            line.setEndX(x);
+            line.setEndY(y);
+        }
     }
 
     public void addLayerToCircle(Color color) {
@@ -136,7 +144,11 @@ public class Ball {
         //and when called twice, it should have color of 1st border and 2nd respectively as layers
 
     }
-
+    private Line getNewLine(double a , double b, Circle border){
+        Line line = new Line(border.getCenterX() + a * (border.getRadius()),border.getCenterY() + b * (border.getRadius()),border.getCenterX(),border.getCenterY());
+        line.setStroke(Color.BISQUE);
+        return line;
+    }
     public Circle createCircleStockTransition() {
         Circle circle = new Circle(100, 100, 50);
         circle.setFill(Color.TRANSPARENT);
