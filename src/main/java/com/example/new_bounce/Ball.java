@@ -146,7 +146,22 @@ public class Ball {
     }
     private Line getNewLine(double a , double b, Circle border){
         Line line = new Line(border.getCenterX() + a * (border.getRadius()),border.getCenterY() + b * (border.getRadius()),border.getCenterX(),border.getCenterY());
-        line.setStroke(Color.BISQUE);
+        line.setStrokeWidth(2);
+
+        Color[] colors = {Color.RED, Color.ORANGE, Color.PINK, Color.VIOLET, Color.BLUEVIOLET};
+
+        // Create a stroke transition to smoothly transition between colors
+        StrokeTransition strokeTransition = new StrokeTransition(Duration.seconds(2), line);
+        strokeTransition.setAutoReverse(true); // Optionally, make the transition reversible
+        strokeTransition.setCycleCount(Animation.INDEFINITE); // Repeat the transition indefinitely
+
+        // Set up the color gradient
+        strokeTransition.setFromValue(colors[0]);
+        strokeTransition.setToValue(colors[colors.length - 1]);
+
+        // Start the transition
+        strokeTransition.play();
+
         return line;
     }
     public Circle createCircleStockTransition() {
