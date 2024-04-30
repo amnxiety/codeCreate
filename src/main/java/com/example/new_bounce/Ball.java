@@ -16,9 +16,9 @@ import java.util.List;
 public class Ball {
     private static final double SIZE_INCREMENT = 3.15;
     private static final double BORDER_RADIUS = 250;
-    private static final double SPEED_INCREMENT = 0.1;
+    private static final double SPEED_INCREMENT = 0.25;
     private final Text collisionText;
-    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/sad3.mid");
+    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/BL.mid");
     //    private static final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
     private final List<Circle> tail = new ArrayList<>();
     private final List<Circle> layers = new ArrayList<>();
@@ -63,7 +63,9 @@ public class Ball {
 
 
         if (distanceToCenter + radius >= border.getRadius()) {
-
+            if (circle.getRadius()>10){
+                circle.setRadius(circle.getRadius()-5);
+            }
             musicPlayer.playNotesWhenAsked();
 
             border.setRadius(border.getRadius());
@@ -99,7 +101,7 @@ public class Ball {
         newTailPiece.setFill(Color.GRAY); // Set the color of the tail piece
 
         // Limit the number of tail pieces
-        if (tail.size() > 20) { // Adjust the number of tail pieces as needed
+        if (tail.size() > 40) { // Adjust the number of tail pieces as needed
             children.remove(tail.remove(0)); // Remove the oldest tail piece from the root pane and the tail list
         }
 
@@ -165,8 +167,8 @@ public class Ball {
         return line;
     }
     public Circle createCircleStockTransition() {
-        Circle circle = new Circle(100, 100, 50);
-        circle.setFill(Color.TRANSPARENT);
+        Circle circle = new Circle(100, 100, 550);
+        circle.setFill(Color.BLACK);
         circle.setStrokeWidth(15);
 
 
