@@ -72,10 +72,11 @@ public class BouncingBallFX extends Application {
                     @Override
                     public void handle(long now) {
                         if (ball.radius + 30 < 600) {
-                            ball.updatePosition(0.55, border.getCircle());
+                            ball.updatePosition(1.10, border.getCircle());
                             ball.updateTail(root.getChildren());
                             if (border.getCircle().getRadius() <= ball.radius + 30) {
                                 root.getChildren().remove(border.getCircle());
+                                ball.dy = -5;
                                 ball.addLayerToCircle(border.currentColor);
                                 colorNumber[0] += 1;
                                 border = new Border(WIDTH / 2.0, HEIGHT / 2.0, 600, staticConstants.rgbColors.get(colorNumber[0] % staticConstants.rgbColors.size()));

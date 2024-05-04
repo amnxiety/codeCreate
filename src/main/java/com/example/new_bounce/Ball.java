@@ -15,7 +15,7 @@ public class Ball {
     private static final double BORDER_RADIUS = 250;
     private static final double SPEED_INCREMENT = 0.000;
     private final Text collisionText;
-    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/sad.mid");
+    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/Owl City - Fireflies  PIANO - Rinerion.mid.mid");
     //    private static final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
     private final List<Circle> tail = new ArrayList<>();
     private final List<Circle> layers = new ArrayList<>();
@@ -30,7 +30,7 @@ public class Ball {
     public int collisionCount = 0;
     ObservableList<Node> children;
     private double dx;
-    private double dy;
+    public double dy;
     private Line lineToBorder;
 
     public Ball(double x, double y, double dx, double dy, double radius, Color color, Text collisionText, ObservableList<Node> children) {

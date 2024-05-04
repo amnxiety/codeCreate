@@ -11,8 +11,8 @@ public class StaticConstants {
 
     StaticConstants() {
         rgbColors = new ArrayList<>();
-//        addPurpleColors();
-        addPallateColors();
+        addPurpleColors();
+//        addPallateColors();
     }
 
     private void addPurpleColors() {
