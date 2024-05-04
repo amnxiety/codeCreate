@@ -28,9 +28,9 @@ public class MusicPlayer {
 
     public void playNotesWhenAsked() {
 
-        if(noteNumber==60){
-            noteNumber=0;
-        }
+//        if(noteNumber==60){
+//            noteNumber=0;
+//        }
         System.out.println(noteNumber);
         int note = notes.get(noteNumber % sizeNotes);
         noteNumber += 1;

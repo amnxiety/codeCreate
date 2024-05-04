@@ -5,6 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="accded19-9da6-4230-a5b9-892491923ed9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/Main-Bella ciao.mid.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/Stan- Eminem.mid" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/eminem-stan.mid (1).mid" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" afterDir="false" />

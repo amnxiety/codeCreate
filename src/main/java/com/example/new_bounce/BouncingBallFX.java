@@ -38,7 +38,7 @@ public class BouncingBallFX extends Application {
 
         setCollisionCounter();
 
-        border = new Border(WIDTH / 2.0, HEIGHT / 2.0, 650, Color.BLUEVIOLET); // Initial border color
+        border = new Border(WIDTH / 2.0, HEIGHT / 2.0, 650, Color.MEDIUMVIOLETRED); // Initial border color
         ball = new Ball(WIDTH/2.5 , HEIGHT / 2.5, 2, -2, 10, staticConstants.rgbColors.getFirst(), collisionText, root.getChildren());
 
         Button startButton = new Button("Start");

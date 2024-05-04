@@ -18,7 +18,7 @@ public class Ball {
     private static final double BORDER_RADIUS = 250;
     private static final double SPEED_INCREMENT = 0.40;
     private final Text collisionText;
-    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/Belaco.mid");
+    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/Main-Bella ciao.mid.mid");
     //    private static final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
     private final List<Circle> tail = new ArrayList<>();
     private final List<Circle> layers = new ArrayList<>();
@@ -64,7 +64,7 @@ public class Ball {
 
         if (distanceToCenter + radius >= border.getRadius()) {
 //            if (circle.getRadius()>10){
-                circle.setRadius(circle.getRadius()+3);
+                circle.setRadius(circle.getRadius()+2);
 //            }
             musicPlayer.playNotesWhenAsked();
 
