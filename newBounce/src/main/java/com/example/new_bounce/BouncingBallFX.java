@@ -268,7 +268,7 @@ public class BouncingBallFX extends Application {
     }
 
     private void playNotesWhenAsked(int noteNumber) {
-        playNoteWithDelay(notes.get(noteNumber % sizeNotes), getNoteDuration(notes.get(noteNumber % sizeNotes)));
+//        playNoteWithDelay(notes.get(noteNumber % sizeNotes), getNoteDuration(notes.get(noteNumber % sizeNotes)));
     }
 
     private void playNoteWithDelay(int note, long duration) {

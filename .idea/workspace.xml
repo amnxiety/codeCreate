@@ -5,24 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="accded19-9da6-4230-a5b9-892491923ed9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/runConfigurations/BouncingBallFX.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/src/main/java/com/example/new_bounce/BouncingBallFX.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/src/main/java/com/example/new_bounce/midi/fur.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/src/main/java/com/example/new_bounce/midi/meme.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/src/main/java/com/example/newbounce/HelloApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/src/main/java/com/example/newbounce/HelloController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/src/main/java/module-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/src/main/resources/com/example/new_bounce/hello-view.fxml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/newBounce/src/main/resources/com/example/newbounce/hello-view.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/newBounce/src/main/java/com/example/new_bounce/BouncingBallFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/newBounce/src/main/java/com/example/new_bounce/BouncingBallFX.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,24 +45,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.BouncingBallFX (1).executor": "Run",
-    "Application.BouncingBallFX.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "circle__ball__new",
-    "ignore.virus.scanning.warn.message": "true",
-    "jdk.selected.JAVA_MODULE": "22",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/AmanOldLaptop/codeCreate/newBounce",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BouncingBallFX (1).executor&quot;: &quot;Run&quot;,
+    &quot;Application.BouncingBallFX.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;circle__ball__new&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;22&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/AmanOldLaptop/codeCreate/newBounce&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\AMAN\codeCreate\src\main\java\com\example\new_bounce\keyNotes" />
