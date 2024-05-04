@@ -38,7 +38,7 @@ public class BouncingBallFX extends Application {
 
         setCollisionCounter();
 
-        border = new Border(WIDTH / 2.0, HEIGHT / 2.0, 650, Color.MEDIUMVIOLETRED); // Initial border color
+        border = new Border(WIDTH / 2.0, HEIGHT / 2.0, 650, Color.ORANGERED); // Initial border color
         ball = new Ball(WIDTH/2.5 , HEIGHT / 2.5, 2, -2, 10, staticConstants.rgbColors.getFirst(), collisionText, root.getChildren());
 
         Button startButton = new Button("Start");
@@ -72,7 +72,7 @@ public class BouncingBallFX extends Application {
                     @Override
                     public void handle(long now) {
                         if (ball.radius + 30 < 600) {
-                            ball.updatePosition(1.10, border.getCircle());
+                            ball.updatePosition(1.15, border.getCircle());
                             ball.updateTail(root.getChildren());
                             if (border.getCircle().getRadius() <= ball.radius + 30) {
                                 root.getChildren().remove(border.getCircle());

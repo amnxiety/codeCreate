@@ -5,9 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="accded19-9da6-4230-a5b9-892491923ed9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/Main-Bella ciao.mid.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/Stan- Eminem.mid" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/midi/eminem-stan.mid (1).mid" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/Ball.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/new_bounce/BouncingBallFX.java" afterDir="false" />
@@ -123,5 +120,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/new_bounce/MusicPlayer.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

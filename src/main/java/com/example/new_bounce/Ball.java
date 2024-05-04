@@ -16,9 +16,9 @@ import java.util.List;
 public class Ball {
     private static final double SIZE_INCREMENT = 3.15;
     private static final double BORDER_RADIUS = 250;
-    private static final double SPEED_INCREMENT = 0.40;
+    private static final double SPEED_INCREMENT = 0.45;
     private final Text collisionText;
-    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/Main-Bella ciao.mid.mid");
+    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/sad.mid");
     //    private static final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
     private final List<Circle> tail = new ArrayList<>();
     private final List<Circle> layers = new ArrayList<>();
@@ -150,7 +150,7 @@ public class Ball {
         Line line = new Line(border.getCenterX() + a * (border.getRadius()),border.getCenterY() + b * (border.getRadius()),border.getCenterX(),border.getCenterY());
         line.setStrokeWidth(4);
 
-        Color[] colors = {Color.RED, Color.ORANGE, Color.PINK, Color.VIOLET, Color.BLUEVIOLET};
+        Color[] colors = {Color.RED, Color.ORANGE, Color.BROWN, Color.BLUEVIOLET, Color.FUCHSIA};
 
         // Create a stroke transition to smoothly transition between colors
         StrokeTransition strokeTransition = new StrokeTransition(Duration.seconds(2), line);
@@ -173,7 +173,7 @@ public class Ball {
 
 
         // Define the colors you want to transition between
-        Color[] colors = {Color.RED, Color.GREEN, Color.BLUE};
+        Color[] colors = {Color.RED, Color.ORANGE, Color.NAVAJOWHITE};
 
         // Create a stroke transition to smoothly transition between colors
         StrokeTransition strokeTransition = new StrokeTransition(Duration.seconds(2), circle);

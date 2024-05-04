@@ -27,13 +27,24 @@ public class MusicPlayer {
     }
 
     public void playNotesWhenAsked() {
-
+        System.out.println(noteNumber);
+        int note = notes.get(noteNumber % sizeNotes);
+        if (noteNumber == 0) {
+            flag = false;
+        }
+        if (noteNumber == sizeNotes) {
+            flag = true;
+        }
+        if (flag) {
+            noteNumber -= 1;
+        } else {
+            noteNumber += 1;
+        }
 //        if(noteNumber==60){
 //            noteNumber=0;
 //        }
-        System.out.println(noteNumber);
-        int note = notes.get(noteNumber % sizeNotes);
-        noteNumber += 1;
+
+//        noteNumber += 1;
 
         System.out.println("total Tracks:"+ sequence.getTracks().length);
         List<Integer> velocities = noteVelocitiesMap.get(note);
