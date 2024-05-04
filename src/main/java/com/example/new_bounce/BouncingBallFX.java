@@ -28,9 +28,9 @@ public class BouncingBallFX extends Application {
     private static final int HEIGHT = 1200;
     private static final int BORDER_RADIUS = 450;
     private static double BALL_RADIUS = 25;
-    private static double GRAVITY = 0.18;
-    private static double SPEED_INCREMENT = 0.08;
-    private static double SIZE_INCREMENT = 3.15;
+    private static double GRAVITY = 1.18;
+    private static double SPEED_INCREMENT = 0.18;
+    private static double SIZE_INCREMENT = 2.0;
     private static double INITIAL_VELOCITY_MIN = 0.5; // Changeable initial velocity range
     private static double INITIAL_VELOCITY_MAX = 0.5; // Changeable initial velocity range
 
