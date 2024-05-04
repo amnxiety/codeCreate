@@ -7,8 +7,7 @@ import javafx.util.Duration;
 import javax.sound.midi.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class MusicPlayer {
     int noteNumber = 0;
@@ -18,6 +17,7 @@ public class MusicPlayer {
     private int sizeNotes;
     private Synthesizer synth;
     Sequence sequence;
+    private Map<Integer, List<Integer>> noteVelocitiesMap = new HashMap<>();
 
     // Add more reverb for a more spacious sound
     private final int REVERB_LEVEL = 40;
@@ -27,13 +27,19 @@ public class MusicPlayer {
     }
 
     public void playNotesWhenAsked() {
-        noteNumber += 1;
+
+        if(noteNumber==60){
+            noteNumber=0;
+        }
+        System.out.println(noteNumber);
         int note = notes.get(noteNumber % sizeNotes);
+        noteNumber += 1;
 
         System.out.println("total Tracks:"+ sequence.getTracks().length);
-        int velocity = getNoteVelocityFromAllTracks(note);
+        List<Integer> velocities = noteVelocitiesMap.get(note);
+        int maxVelocity = velocities.stream().max(Comparator.naturalOrder()).orElse(100); // Default velocity if not found
         long duration = getNoteDuration(note);
-        playNoteWithDelay(note, velocity, duration);
+        playNoteWithDelay(note, maxVelocity, duration);
     }
 
     private void loadMidiFile(String midiFilePath) {
@@ -54,8 +60,20 @@ public class MusicPlayer {
             sequence = MidiSystem.getSequence(midiFile);
             notes = extractNotesFromMidi(sequence);
             noteDurations = calculateNoteDurations(sequence);
+            preloadNoteVelocities(sequence);
         } catch (InvalidMidiDataException | IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void preloadNoteVelocities(Sequence sequence) {
+        for (int note : notes) {
+            List<Integer> velocities = new ArrayList<>();
+            for (Track track : sequence.getTracks()) {
+                int velocity = getNoteVelocity(note, track);
+                velocities.add(velocity);
+            }
+            noteVelocitiesMap.put(note, velocities);
         }
     }
 
@@ -66,7 +84,7 @@ public class MusicPlayer {
 
                 // Find an available MIDI channel
                 MidiChannel channel = Arrays.stream(channels).filter(ch -> !ch.getMono()).findFirst().orElse(null);
-                System.out.println(channels.length);
+//                System.out.println(channels.length);
                 if (channel != null) {
                     // Set soft attack
                     channel.controlChange(73, 64); // Adjust the value as needed
@@ -165,7 +183,7 @@ public class MusicPlayer {
                 }
             }
         }
-        System.out.println("Not Found");
+//        System.out.println("Not Found");
         return 100; // Default velocity if not found
     }
 

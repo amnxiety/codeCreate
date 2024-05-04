@@ -17,7 +17,7 @@ import java.util.Random;
 public class BouncingBallFX extends Application {
 
     private static final int WIDTH = 1500;
-    private static final int HEIGHT = 1500;
+    private static final int HEIGHT = 1600;
     private final Random random = new Random();
     private final int collisionCount = 0;
     private final StaticConstants staticConstants = new StaticConstants();
@@ -39,11 +39,11 @@ public class BouncingBallFX extends Application {
         setCollisionCounter();
 
         border = new Border(WIDTH / 2.0, HEIGHT / 2.0, 650, Color.BLUEVIOLET); // Initial border color
-        ball = new Ball(WIDTH , HEIGHT / 3, 2, -2, 55, staticConstants.rgbColors.getFirst(), collisionText, root.getChildren());
+        ball = new Ball(WIDTH/2.5 , HEIGHT / 2.5, 2, -2, 10, staticConstants.rgbColors.getFirst(), collisionText, root.getChildren());
 
         Button startButton = new Button("Start");
         startButton.setTranslateX(450);
-        startButton.setTranslateY(400);
+        startButton.setTranslateY(450);
 
         root.getChildren().addAll(border.getCircle(), collisionText, startButton);
 
@@ -72,7 +72,7 @@ public class BouncingBallFX extends Application {
                     @Override
                     public void handle(long now) {
                         if (ball.radius + 30 < 600) {
-                            ball.updatePosition(0.45, border.getCircle());
+                            ball.updatePosition(1.10, border.getCircle());
                             ball.updateTail(root.getChildren());
                             if (border.getCircle().getRadius() <= ball.radius + 30) {
                                 root.getChildren().remove(border.getCircle());
@@ -97,7 +97,7 @@ public class BouncingBallFX extends Application {
         collisionText.setFont(Font.font("Arial", 50));
         collisionText.setFill(Color.WHITE);
         collisionText.setTranslateX(610);
-        collisionText.setTranslateY(55);
+        collisionText.setTranslateY(95);
     }
 }
 

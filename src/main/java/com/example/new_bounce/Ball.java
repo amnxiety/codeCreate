@@ -16,9 +16,9 @@ import java.util.List;
 public class Ball {
     private static final double SIZE_INCREMENT = 3.15;
     private static final double BORDER_RADIUS = 250;
-    private static final double SPEED_INCREMENT = 0.25;
+    private static final double SPEED_INCREMENT = 0.40;
     private final Text collisionText;
-    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/BL.mid");
+    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/Belaco.mid");
     //    private static final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
     private final List<Circle> tail = new ArrayList<>();
     private final List<Circle> layers = new ArrayList<>();
@@ -63,9 +63,9 @@ public class Ball {
 
 
         if (distanceToCenter + radius >= border.getRadius()) {
-            if (circle.getRadius()>10){
-                circle.setRadius(circle.getRadius()-5);
-            }
+//            if (circle.getRadius()>10){
+                circle.setRadius(circle.getRadius()+3);
+//            }
             musicPlayer.playNotesWhenAsked();
 
             border.setRadius(border.getRadius());
@@ -148,7 +148,7 @@ public class Ball {
     }
     private Line getNewLine(double a , double b, Circle border){
         Line line = new Line(border.getCenterX() + a * (border.getRadius()),border.getCenterY() + b * (border.getRadius()),border.getCenterX(),border.getCenterY());
-        line.setStrokeWidth(2);
+        line.setStrokeWidth(4);
 
         Color[] colors = {Color.RED, Color.ORANGE, Color.PINK, Color.VIOLET, Color.BLUEVIOLET};
 
@@ -167,7 +167,7 @@ public class Ball {
         return line;
     }
     public Circle createCircleStockTransition() {
-        Circle circle = new Circle(100, 100, 550);
+        Circle circle = new Circle(1500/2.5, 1600/2.5, 25);
         circle.setFill(Color.BLACK);
         circle.setStrokeWidth(15);
 
