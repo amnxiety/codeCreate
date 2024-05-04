@@ -12,7 +12,9 @@ public class StaticConstants {
     StaticConstants() {
         rgbColors = new ArrayList<>();
 //        addPurpleColors();
-        addPallateColors();
+//        addPallateColors();
+//        addDarkPallateColors();
+        addPallateColorsAllBlue();
     }
 
     private void addPurpleColors() {
@@ -63,6 +65,45 @@ public class StaticConstants {
         rgbColors.add(Color.rgb(138, 43, 226));
         rgbColors.add(Color.rgb(255, 105, 80));
         rgbColors.add(Color.rgb(240, 128, 128));
+    }
+    private void addDarkPallateColors() {
+        rgbColors.add(Color.BLACK);
+        rgbColors.add(Color.rgb(16, 0, 10));
+        rgbColors.add(Color.rgb(32, 0, 21));
+        rgbColors.add(Color.rgb(47, 0, 31));
+        rgbColors.add(Color.rgb(63, 0, 42));
+        rgbColors.add(Color.rgb(79, 1, 52));
+        rgbColors.add(Color.rgb(95, 1, 62));
+        rgbColors.add(Color.rgb(111, 1, 73));
+        rgbColors.add(Color.rgb(126, 1, 83));
+        rgbColors.add(Color.rgb(142, 1, 94));
+        rgbColors.add(Color.rgb(19, 1, 47));
+        rgbColors.add(Color.rgb(28, 2, 70));
+        rgbColors.add(Color.rgb(37, 2, 93));
+        rgbColors.add(Color.rgb(47, 3, 117));
+        rgbColors.add(Color.rgb(56, 4, 140));
+        rgbColors.add(Color.rgb(65, 4, 163));
+        rgbColors.add(Color.rgb(74, 5, 186));
+        rgbColors.add(Color.rgb(84, 5, 210));
+    }
+
+    private void addPallateColorsAllBlue() {
+        rgbColors.add(Color.BLACK);
+        rgbColors.add(Color.rgb(9, 1, 23));
+        rgbColors.add(Color.rgb(19, 1, 47));
+        rgbColors.add(Color.rgb(28, 2, 70));
+        rgbColors.add(Color.rgb(32, 4, 80));
+        rgbColors.add(Color.rgb(37, 2, 93));
+        rgbColors.add(Color.rgb(41, 5, 101));
+        rgbColors.add(Color.rgb(47, 3, 117));
+        rgbColors.add(Color.rgb(56, 4, 140));
+        rgbColors.add(Color.rgb(49, 6, 121));
+        rgbColors.add(Color.rgb(57, 7, 141));
+        rgbColors.add(Color.rgb(65, 8, 161));
+        rgbColors.add(Color.rgb(65, 4, 163));
+        rgbColors.add(Color.rgb(74, 5, 186));
+        rgbColors.add(Color.rgb(84, 5, 210));
+        rgbColors.add(Color.rgb(73, 9, 181));
     }
 
 }

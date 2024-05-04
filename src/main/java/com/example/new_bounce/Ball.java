@@ -13,9 +13,9 @@ import java.util.List;
 public class Ball {
     private static final double SIZE_INCREMENT = 3.15;
     private static final double BORDER_RADIUS = 250;
-    private static final double SPEED_INCREMENT = 0.25;
+    private static final double SPEED_INCREMENT = 0.37;
     private final Text collisionText;
-    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/sad.mid");
+    private final MusicPlayer musicPlayer = new MusicPlayer("src/main/java/com/example/new_bounce/midi/Gravity falls short.mid");
     //    private static final Color[] vibrantColors = {Color.RED, Color.GREEN, Color.BLUE, Color.VIOLET};
     private final List<Circle> tail = new ArrayList<>();
     private final List<Circle> layers = new ArrayList<>();
@@ -75,7 +75,7 @@ public class Ball {
             children.remove(allBorder.getFirst().getCircle());
             allBorder.removeFirst();
 
-            musicPlayer.playNotesTuneReversedWhenAsked();
+            musicPlayer.playNotesWhenAsked();
 
 
             double angleToCenter = Math.atan2(dyToCenter, dxToCenter);
@@ -155,7 +155,7 @@ public class Ball {
 
     public Circle createCircle() {
         Circle circle = new Circle(x, y, radius);
-        circle.setFill(color);
+        circle.setFill(Color.BLUE.brighter());
         return circle;
     }
 

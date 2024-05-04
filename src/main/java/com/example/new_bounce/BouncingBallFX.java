@@ -87,7 +87,7 @@ public class BouncingBallFX extends Application {
                             }
 
                             if(startFlag){
-                                ball.updatePosition(0.65, allBorders);
+                                ball.updatePosition(1.05, allBorders);
                                 ball.updateTail(root.getChildren());
                             }
 
@@ -111,11 +111,13 @@ public class BouncingBallFX extends Application {
         timer.start();
 
     }
+    int i=0;
     private void scheduleNewBorder() {
         startUpdateAnimation();
         final int[] colorNumber = {1}; // Start from 0
         Timeline timeline = new Timeline(new KeyFrame(Duration.millis(500), event -> {
-                if(!flag){
+                if(!flag && i<=140){
+                    i+=1;
                 Border newBorder = new Border(WIDTH / 2.0, HEIGHT / 2.0, 600, staticConstants.rgbColors.get(colorNumber[0] % staticConstants.rgbColors.size()));
                 allBorders.addLast(newBorder);
                 root.getChildren().add(allBorders.getLast().getCircle());
